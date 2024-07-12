@@ -1,7 +1,7 @@
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
-import com.xworkz.issuemanagement.model.repo.ForgotpasswordRepo;
+import com.xworkz.issuemanagement.model.repository.ForgotpasswordRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

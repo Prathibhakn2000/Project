@@ -1,7 +1,7 @@
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
-import com.xworkz.issuemanagement.model.repo.AjaxRepo;
+import com.xworkz.issuemanagement.model.repository.AjaxRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

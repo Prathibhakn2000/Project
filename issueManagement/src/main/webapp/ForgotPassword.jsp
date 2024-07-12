@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="ISO-8859-1">
-    <title>Spring Project</title>
+    <title>ForgotPassword</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/issueManagement/js/SignInValidation.js"></script>
     <!-- card desiging(highlight)-->

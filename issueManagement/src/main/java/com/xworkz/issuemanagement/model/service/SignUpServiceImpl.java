@@ -1,7 +1,7 @@
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
-import com.xworkz.issuemanagement.model.repo.SignUpRepo;
+import com.xworkz.issuemanagement.model.repository.SignUpRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,11 +32,11 @@ public class SignUpServiceImpl implements SignUpService {
         //setaudit
         String createdBy = signUpDTO.getFirstName(); // or get the current user
         LocalDateTime createdOn = LocalDateTime.now();
-        String updatedBy = signUpDTO.getFirstName(); // or get the current user
-        LocalDateTime updatedOn = LocalDateTime.now();
+        //String updatedBy = signUpDTO.getFirstName(); // or get the current user
+       // LocalDateTime updatedOn = LocalDateTime.now();
         boolean isActive = true;
 
-        setAudit(signUpDTO, createdBy, createdOn, updatedBy, updatedOn, isActive);
+        setAudit(signUpDTO, createdBy, createdOn, isActive);
 
         //generating password stored in database
         String generatedPassword = PassWordGenerator.generatePassword();
@@ -58,13 +58,12 @@ public class SignUpServiceImpl implements SignUpService {
 
     //set audit
     @Override
-    public void setAudit(SignUpDTO signUpDTO, String createdBy, LocalDateTime createdOn, String updatedBy, LocalDateTime updatedOn, boolean isActive) {
+    public void setAudit(SignUpDTO signUpDTO, String createdBy, LocalDateTime createdOn,boolean isActive) {
         System.out.println("Running setAudit method....");
         signUpDTO.setCreatedBy(createdBy);
-
         signUpDTO.setCreatedOn(createdOn);
-        signUpDTO.setUpdatedBy(updatedBy);
-        signUpDTO.setUpdatedOn(updatedOn);
+       // signUpDTO.setUpdatedBy(updatedBy);
+//        signUpDTO.setUpdatedOn(updatedOn);
         signUpDTO.setActive(isActive);
     }
 

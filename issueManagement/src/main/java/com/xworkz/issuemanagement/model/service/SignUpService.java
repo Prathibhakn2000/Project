@@ -10,7 +10,7 @@ public interface SignUpService {
     boolean validateAndsave(SignUpDTO signUpDTO);
 
     //setaudit
-    void setAudit(SignUpDTO signUpDTO, String createdBy, LocalDateTime createdOn, String updatedBy, LocalDateTime updatedOn, boolean isActive);
+    void setAudit(SignUpDTO signUpDTO, String createdBy, LocalDateTime createdOn,boolean isActive);
 
 
 }

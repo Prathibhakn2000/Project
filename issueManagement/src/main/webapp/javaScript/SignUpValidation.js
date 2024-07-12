@@ -4,7 +4,7 @@ let fieldsChecks = {
 	    "lastName" : false,
 	    "email":false,
 	    "contactNumber":false,
-	    "alternateContactNumber":false,
+	    "alternativeContactNumber":false,
 	    "address":false,
 	    "agree":false,
 
@@ -101,7 +101,7 @@ function contactNumberValidation() {
         fieldsChecks["contactNumber"] = true;  // Assuming fieldsChecks is a global variable for form validation
     } else {
         // Mobile number is invalid
-        error.innerHTML = "Invalid contact number. It should start with 6, 7, 8, or 9 and equals to 10 digits.";
+        error.innerHTML = "Invalid contact number. Please Enter Valid Number ";
         error.style.color = "red";
         fieldsChecks["contactNumber"] = false;
     }
@@ -123,8 +123,7 @@ function alternateContactNumberValidation() {
         fieldsChecks["alternateContactNumber"] = true;  // Assuming fieldsChecks is a global variable for form validation
     } else {
         // Mobile number is invalid
-        error.innerHTML = "Invalid alternateContactNumber. It should start with 6, 7, 8, or 9 and equals to 10 digits.";
-        error.style.color = "red";
+        error.innerHTML = "Invalid alternateContactNumber. Please Enter Valid Number        error.style.color = "red";
         fieldsChecks["alternateContactNumber"] = false;
     }
     validate();  // Call a function to validate the entire form, if needed

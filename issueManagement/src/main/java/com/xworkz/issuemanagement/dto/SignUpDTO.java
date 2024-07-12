@@ -35,6 +35,7 @@ public class SignUpDTO {
     @Column(name = "address" )
     private String address;
 
+
     @Column(name = "created_by")
     private String createdBy;
 
@@ -181,9 +182,11 @@ public class SignUpDTO {
         this.accountLocked = accountLocked;
     }
 
+
+
     @Override
     public String toString() {
-        return "SingUpDTO{" +
+        return "SignUpDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

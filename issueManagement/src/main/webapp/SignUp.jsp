@@ -73,7 +73,7 @@
 <div class="mb-3">
   <span id="emailError" style="color: red;"></span><br>
   <label for="email" class="form-label"><b>Email address</b></label>
-  <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" onblur="emailValidation()" onchange="emailValidate()">
+  <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" onblur="emailValidation()" onchange="emailValidate()" value="${signUpDTO.email}"/>
 </div>
 
 <div class="mb-3">
@@ -85,7 +85,7 @@
 <div class="mb-3">
   <span id="altContactNbrError"></span><br>
   <label for="alternateContactNumber" class="form-label"><b>Alternative Contact Number</b></label>
-  <input type="tel" class="form-control" id="alternateContactNumber" placeholder="Enter Alternative Contact Number" onblur="alternateContactNumberValidation()" name="alternativeContactNumber" value="${signUpDTO.alternateContactNumber}"/>
+  <input type="tel" class="form-control" id="alternateContactNumber" placeholder="Enter Alternative Contact Number" onblur="alternateContactNumberValidation()" name="alternativeContactNumber" value="${signUpDTO.alternativeContactNumber}"/>
 </div>
 
 <div class="mb-3">
@@ -103,7 +103,7 @@
 </div>
 <br>
 
-<center> <input type="submit" class="btn btn-primary" id="submit" value="SignUp" disabled /></center>
+<center> <input type="submit" class="btn btn-primary" id="submit" value="SignUp"  /></center>
 </form>
 </div>
   </div>

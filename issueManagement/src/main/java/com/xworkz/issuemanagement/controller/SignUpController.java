@@ -37,6 +37,7 @@ public class SignUpController {
             if(dataValid)
             {
                 System.out.println("SignUpService registration successful in SignUpController:"+signUpDTO);
+                model.addAttribute("signUpDTO",signUpDTO);
                 //Sending password to email
                 String subject = "Welcome to Our Service";
                 String body = "Hi " + signUpDTO.getFirstName()+ ",\n\nYour registration is successful. Your password is " + signUpDTO.getPassword();
