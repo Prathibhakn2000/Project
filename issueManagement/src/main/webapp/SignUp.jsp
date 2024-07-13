@@ -61,37 +61,37 @@
 <div class="mb-3">
   <span id="firstNameError"></span><br>
   <label for="firstName" class="form-label"><b>FirstName</b></label>
-  <input type="text" class="form-control" id="firstName" placeholder="Enter Firstname" onblur="firstNameValidation()" name="firstName" value="${signUpDTO.firstName}"/>
+  <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter Firstname" onblur="firstNameValidation()"  />
 </div>
 
 <div class="mb-3">
  <span id="lastNameError"></span><br>
   <label for="lastName" class="form-label"><b>LastName</b></label>
-  <input type="text" class="form-control"  id="lastName" placeholder="Enter Lastname" onblur="lastNameValidation()" name="lastName" value="${signUpDTO.lastName}"/>
+  <input type="text" class="form-control"  id="lastName" placeholder="Enter Lastname" onblur="lastNameValidation()" name="lastName" />
 </div>
 
 <div class="mb-3">
   <span id="emailError" style="color: red;"></span><br>
   <label for="email" class="form-label"><b>Email address</b></label>
-  <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" onblur="emailValidation()" onchange="emailValidate()" value="${signUpDTO.email}"/>
+  <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" onblur="emailValidation()" onchange="emailValidate()" />
 </div>
 
 <div class="mb-3">
   <span id="contactNumberError" style="color: red;"></span><br>
   <label for="contactNumber" class="form-label"><b>Contact Number</b></label>
-  <input type="tel" class="form-control" id="contactNumber" placeholder="Enter Contact Number" onblur="contactNumberValidation()" onchange="contactNumberValidate()" name="contactNumber" value="${signUpDTO.contactNumber}"/>
+  <input type="tel" class="form-control" id="contactNumber" placeholder="Enter Contact Number" onblur="contactNumberValidation()" onchange="contactNumberValidate()" name="contactNumber" />
 </div>
 
 <div class="mb-3">
   <span id="altContactNbrError"></span><br>
   <label for="alternateContactNumber" class="form-label"><b>Alternative Contact Number</b></label>
-  <input type="tel" class="form-control" id="alternateContactNumber" placeholder="Enter Alternative Contact Number" onblur="alternateContactNumberValidation()" name="alternativeContactNumber" value="${signUpDTO.alternativeContactNumber}"/>
+  <input type="tel" class="form-control" id="alternateContactNumber" placeholder="Enter Alternative Contact Number" onblur="alternateContactNumberValidation()" name="alternativeContactNumber" />
 </div>
 
 <div class="mb-3">
   <span id="addressError"></span><br>
   <label for="address" class="form-label"><b>Address</b></label>
-  <textarea class="form-control" id="address" rows="3" name="address" placeholder="Enter Address" onblur="addressValidation()">${signUpDTO.address}</textarea>
+  <textarea class="form-control" id="address" rows="3" name="address" placeholder="Enter Address" onblur="addressValidation()"></textarea>
 </div>
 
 <div class="list-group">
@@ -103,11 +103,12 @@
 </div>
 <br>
 
-<center> <input type="submit" class="btn btn-primary" id="submit" value="SignUp"  /></center>
+<center> <input type="submit" class="btn btn-primary" id="submit" value="SignUp" disable></center>
 </form>
 </div>
   </div>
     </div>
+    </body>
       <script>
 
       <!-- ajax email validation--!>
@@ -185,5 +186,5 @@
              }
 
       </script>
- </body>
+
  </html>

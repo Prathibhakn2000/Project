@@ -4,7 +4,7 @@ let fieldsChecks = {
 	    "lastName" : false,
 	    "email":false,
 	    "contactNumber":false,
-	    "alternativeContactNumber":false,
+	    "alternateContactNumber":false,
 	    "address":false,
 	    "agree":false,
 
@@ -31,6 +31,7 @@ function validate(){
 
 function firstNameValidation()
 {
+console.log("First name validation")
  let element = document.getElementById("firstName");
                 let error = document.getElementById("firstNameError");
                 let nameRegex = /^[A-Za-z]+$/;
@@ -123,7 +124,7 @@ function alternateContactNumberValidation() {
         fieldsChecks["alternateContactNumber"] = true;  // Assuming fieldsChecks is a global variable for form validation
     } else {
         // Mobile number is invalid
-        error.innerHTML = "Invalid alternateContactNumber. Please Enter Valid Number        error.style.color = "red";
+        error.innerHTML = "Invalid alternateContactNumber. Please Enter Valid Number";
         fieldsChecks["alternateContactNumber"] = false;
     }
     validate();  // Call a function to validate the entire form, if needed

@@ -1,14 +1,17 @@
+
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
 import com.xworkz.issuemanagement.model.repository.EditProfileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 @Service
+@Transactional
 public class EditProfileServiceImpl implements EditProfileService {
 
     @Autowired
@@ -28,16 +31,8 @@ public class EditProfileServiceImpl implements EditProfileService {
 
     @Override
     public SignUpDTO updateSignupDtoByEmail(SignUpDTO signUpDTO) {
-
-//        // Set audit fields on the existing user
-//        String updatedBy = signUpDTO.getFirstName(); // or get the current user
-//        LocalDateTime updatedOn = LocalDateTime.now();
-//        setAudit(signUpDTO, updatedBy, updatedOn);
-
-
         SignUpDTO existingUser = editProfileRepo.findByEmail(signUpDTO.getEmail());
         if (existingUser != null) {
-            httpSession.getAttribute("signUpDTO");
             // Set updated fields
             existingUser.setFirstName(signUpDTO.getFirstName());
             existingUser.setLastName(signUpDTO.getLastName());
@@ -45,15 +40,19 @@ public class EditProfileServiceImpl implements EditProfileService {
             existingUser.setAlternativeContactNumber(signUpDTO.getAlternativeContactNumber());
             existingUser.setAddress(signUpDTO.getAddress());
 
-
-
             // Set audit fields on the existing user
-            String updatedBy = httpSession.getAttribute("signedInUserEmail").toString();
-            LocalDateTime updatedOn = LocalDateTime.now();
-            setAudit(existingUser, updatedBy, updatedOn);
+            String userEmail = (String) httpSession.getAttribute("signedInUserEmail");
+            if (userEmail != null) {
+                String updatedBy = signUpDTO.getFirstName();
+                LocalDateTime updatedOn = LocalDateTime.now();
+                setAudit(existingUser, updatedBy, updatedOn);
 
-
-            return editProfileRepo.updateSignupDtoByEmail(existingUser);
+                return editProfileRepo.updateSignupDtoByEmail(existingUser);
+            } else {
+                // Handle the case when signedInUserEmail is not found in session
+                System.err.println("Signed-in user email not found in session.");
+                return null;
+            }
         }
         return null;
     }

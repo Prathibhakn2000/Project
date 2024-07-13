@@ -1,3 +1,4 @@
+
 package com.xworkz.issuemanagement.controller;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
@@ -28,12 +29,15 @@ public class EditProfileController {
         SignUpDTO signUpDTO = (SignUpDTO) httpSession.getAttribute("signUpDTO");
         if (signUpDTO != null) {
             model.addAttribute("signUpDTO", signUpDTO);
+            // Set the signed-in user email in session if not already set
+            if (httpSession.getAttribute("signedInUserEmail") == null) {
+                httpSession.setAttribute("signedInUserEmail", signUpDTO.getFirstName());
+            }
             System.out.println("Signed-in user email: " + signUpDTO.getEmail());
         } else {
             System.out.println("User email not found in session.");
             // Handle session expired or not signed in
         }
-
         return "UserEditProfile"; // Return the name of your JSP file
     }
 
@@ -49,3 +53,4 @@ public class EditProfileController {
         return "Profile";
     }
 }
+

@@ -1,3 +1,4 @@
+
 package com.xworkz.issuemanagement.model.repository;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
@@ -8,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 @Repository
 public class EditProfileRepoImpl implements EditProfileRepo {
@@ -27,9 +27,9 @@ public class EditProfileRepoImpl implements EditProfileRepo {
         transaction.begin();
         try {
             String query = "select s from SignUpDTO s where s.email = :email";
-            Query query1 = entityManager.createQuery(query);
-            query1.setParameter("email", email);
-            SignUpDTO singleResult = (SignUpDTO) query1.getSingleResult();
+            SignUpDTO singleResult = entityManager.createQuery(query, SignUpDTO.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
             transaction.commit();
             return singleResult;
         } catch (PersistenceException persistenceException) {
@@ -54,6 +54,9 @@ public class EditProfileRepoImpl implements EditProfileRepo {
                 existingUser.setContactNumber(updatedUserDetails.getContactNumber());
                 existingUser.setAlternativeContactNumber(updatedUserDetails.getAlternativeContactNumber());
                 existingUser.setAddress(updatedUserDetails.getAddress());
+                existingUser.setUpdatedBy(updatedUserDetails.getUpdatedBy());
+                existingUser.setUpdatedOn(updatedUserDetails.getUpdatedOn());
+
                 entityManager.merge(existingUser);
                 entityTransaction.commit();
                 return existingUser;
