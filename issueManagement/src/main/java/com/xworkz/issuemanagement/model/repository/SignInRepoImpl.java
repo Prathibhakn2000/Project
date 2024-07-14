@@ -26,7 +26,7 @@ public class SignInRepoImpl implements SignInRepo {
         try {
             entityTransaction.begin();
 
-            String query = "SELECT s FROM SignUpDTO s where s.email=:email AND s.password=:password";
+            String query =  "SELECT s FROM SignUpDTO s where s.email=:email AND s.password=:password";
             Query query1 = entityManager.createQuery(query);
             query1.setParameter("email", email);
             query1.setParameter("password", password);

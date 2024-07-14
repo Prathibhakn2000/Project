@@ -32,8 +32,8 @@ public class SignUpRepoImpl implements SignUpRepo {
 
         try {
 
-            manager.persist(signUpDTO);
-           // manager.merge(signUpDTO);
+           manager.persist(signUpDTO);
+            //manager.merge(signUpDTO);
 
             tx.commit();
         } catch (PersistenceException persistenceException) {

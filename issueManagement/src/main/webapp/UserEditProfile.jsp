@@ -44,7 +44,9 @@
   <div class="card highlight-card" style="width: 40%; padding: 20px;">
     <div class="card-body">
       <h3><b><center>UserProfileEdit</center></b></h3>
-      <form action="edit-profile" method="post">
+  <form action="upload" method="post" enctype="multipart/form-data">
+
+     <!--   <form action="${pageContext.request.contextPath}/issueManagement/upload" method="post" enctype="multipart/form-data">--!>
 
       <center><strong><span style="color:green">${profileMessage}</span></strong></center>
       <center><strong><span style="color:green">${profileError}</span></strong></center>
@@ -96,6 +98,8 @@
 </div>
 
 <div class="mb-3">
+ <!-- Existing fields -->
+    <input type="hidden" name="signUpDTO.id" value="${signUpDTO.id}">
    <label for="file" class="form-label text-dark"><b>Choose File<b></label>
    <input type="file" class="form-control" name="file" id="file">
 </div>

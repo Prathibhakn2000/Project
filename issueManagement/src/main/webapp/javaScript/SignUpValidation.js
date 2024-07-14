@@ -123,8 +123,9 @@ function alternateContactNumberValidation() {
         error.style.color = "";  // Reset error message style
         fieldsChecks["alternateContactNumber"] = true;  // Assuming fieldsChecks is a global variable for form validation
     } else {
-        // Mobile number is invalid
+
         error.innerHTML = "Invalid alternateContactNumber. Please Enter Valid Number";
+        error.style.color = "red";
         fieldsChecks["alternateContactNumber"] = false;
     }
     validate();  // Call a function to validate the entire form, if needed
@@ -135,10 +136,11 @@ function addressValidation()
 {
  let element = document.getElementById("address");
                 let error = document.getElementById("addressError");
-                let nameRegex = /^[A-Za-z]+$/;
+                let nameRegex = /^[A-Za-z\s]+$/; // Updated regex to include spaces
 
                 if (element.value.length > 3 && element.value.length < 30 && nameRegex.test(element.value)) {
                     error.innerHTML = "";
+                    error.style.color = "";
                     fieldsChecks["address"] = true;
                 } else {
                     error.innerHTML = "Invalid address. address should be alphabetic characters only and length should be greater than 3 and less than 300.";

@@ -61,13 +61,13 @@
 <div class="mb-3">
   <span id="firstNameError"></span><br>
   <label for="firstName" class="form-label"><b>FirstName</b></label>
-  <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter Firstname" onblur="firstNameValidation()"  />
+  <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter Firstname"  onblur="firstNameValidation()"/>
 </div>
 
 <div class="mb-3">
  <span id="lastNameError"></span><br>
   <label for="lastName" class="form-label"><b>LastName</b></label>
-  <input type="text" class="form-control"  id="lastName" placeholder="Enter Lastname" onblur="lastNameValidation()" name="lastName" />
+  <input type="text" class="form-control"  id="lastName" name="lastName" placeholder="Enter Lastname"  onblur="lastNameValidation()"/>
 </div>
 
 <div class="mb-3">
@@ -79,13 +79,13 @@
 <div class="mb-3">
   <span id="contactNumberError" style="color: red;"></span><br>
   <label for="contactNumber" class="form-label"><b>Contact Number</b></label>
-  <input type="tel" class="form-control" id="contactNumber" placeholder="Enter Contact Number" onblur="contactNumberValidation()" onchange="contactNumberValidate()" name="contactNumber" />
+  <input type="tel" class="form-control" id="contactNumber" name="contactNumber" placeholder="Enter Contact Number" onblur="contactNumberValidation()" onchange="contactNumberValidate()" />
 </div>
 
 <div class="mb-3">
   <span id="altContactNbrError"></span><br>
   <label for="alternateContactNumber" class="form-label"><b>Alternative Contact Number</b></label>
-  <input type="tel" class="form-control" id="alternateContactNumber" placeholder="Enter Alternative Contact Number" onblur="alternateContactNumberValidation()" name="alternativeContactNumber" />
+  <input type="tel" class="form-control" id="alternateContactNumber" name="alternativeContactNumber" placeholder="Enter Alternative Contact Number" onblur="alternateContactNumberValidation()" />
 </div>
 
 <div class="mb-3">
@@ -103,12 +103,12 @@
 </div>
 <br>
 
-<center> <input type="submit" class="btn btn-primary" id="submit" value="SignUp" disable></center>
+<center> <input type="submit" class="btn btn-primary" id="submit" value="SignUp" ></center>
 </form>
 </div>
   </div>
     </div>
-    </body>
+
       <script>
 
       <!-- ajax email validation--!>
@@ -186,5 +186,5 @@
              }
 
       </script>
-
+       </body>
  </html>
