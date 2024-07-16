@@ -62,8 +62,7 @@ public class SignUpDTO {
     private boolean accountLocked=false;
 
 
-    @Column(name = "image_name")
-    private String imageName;
+
 
 
     public int getId() {
@@ -186,6 +185,9 @@ public class SignUpDTO {
         this.accountLocked = accountLocked;
     }
 
+    @Column(name = "image_name")
+    private String imageName;
+
     public String getImageName() {
         return imageName;
     }
@@ -193,8 +195,6 @@ public class SignUpDTO {
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
-
-
 
     @Override
     public String toString() {
@@ -214,7 +214,7 @@ public class SignUpDTO {
                 ", password='" + password + '\'' +
                 ", failedAttempt=" + failedAttempt +
                 ", accountLocked=" + accountLocked +
-                //", imageName='" + imageName + '\'' +
+                ", imageName='" + imageName + '\'' +
                 '}';
     }
 }

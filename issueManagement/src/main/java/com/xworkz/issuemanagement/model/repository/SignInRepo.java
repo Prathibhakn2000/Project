@@ -11,5 +11,5 @@ public interface SignInRepo {
     SignUpDTO findByEmail(String email); // Add this method to find a user by email
 
 
-    boolean update(SignUpDTO signUpDto);
+    boolean update(SignUpDTO signUpDto);// this method is used for updatedBy and UpdatedOn
 }

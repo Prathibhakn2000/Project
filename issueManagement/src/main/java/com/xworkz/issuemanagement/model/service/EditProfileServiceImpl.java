@@ -39,6 +39,7 @@ public class EditProfileServiceImpl implements EditProfileService {
             existingUser.setContactNumber(signUpDTO.getContactNumber());
             existingUser.setAlternativeContactNumber(signUpDTO.getAlternativeContactNumber());
             existingUser.setAddress(signUpDTO.getAddress());
+            existingUser.setImageName(signUpDTO.getImageName());
 
             // Set audit fields on the existing user
             String userEmail = (String) httpSession.getAttribute("signedInUserEmail");

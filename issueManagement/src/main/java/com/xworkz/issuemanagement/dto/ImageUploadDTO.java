@@ -1,6 +1,9 @@
 package com.xworkz.issuemanagement.dto;
 
+import com.xworkz.issuemanagement.constant.Status;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="image_details")
@@ -31,6 +34,22 @@ public class ImageUploadDTO {
 
     @Column(name = "image_type" )
     private String imageType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status" )
+    private Status status;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "updated_on")
+    private LocalDateTime updatedOn;
 
     public int getImageId() {
         return imageId;
@@ -72,6 +91,45 @@ public class ImageUploadDTO {
         this.imageType = imageType;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
+    }
 
     @Override
     public String toString() {
@@ -81,6 +139,12 @@ public class ImageUploadDTO {
                 ", imageName='" + imageName + '\'' +
                 ", imageSize=" + imageSize +
                 ", imageType='" + imageType + '\'' +
+                ", status=" + status +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdOn=" + createdOn +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedOn=" + updatedOn +
                 '}';
     }
 }
+

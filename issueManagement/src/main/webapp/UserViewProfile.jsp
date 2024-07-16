@@ -26,9 +26,14 @@
       <a class="navbar-brand" href="#">
         <img src="https://x-workz.in/static/media/Logo.cf195593dc1b3f921369.png" alt="xworkz" width="140" height="70">
       </a>
+
       <a class="navbar-brand" href="index.jsp"><b>Home</b></a>
        <a class="navbar-brand" href="Profile.jsp"><b>Profile</b></a>
     </div>
+    <!---image display in profile--!>
+         <img src="${pageContext.request.contextPath}${sessionScope.profileImage}" alt="Profile" width="80" height="80" class="rounded-circle">
+
+
   </div>
 </nav>
 

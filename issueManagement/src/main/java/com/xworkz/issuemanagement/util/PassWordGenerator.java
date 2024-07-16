@@ -4,6 +4,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.security.SecureRandom;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType.DIGIT;
+
 public class PassWordGenerator {
 
 //    public  PassWordGenerator()
@@ -50,6 +52,8 @@ public class PassWordGenerator {
     public static String generatePassword() {
         // Ensure at least one special character
         String specialCharacter = RandomStringUtils.random(1, SPECIAL_CHARACTERS);
+
+        //String digit=RandomStringUtils.random(1,DIGIT);
 
         // Generate remaining characters from CHARACTERS
         String remainingCharacters = RandomStringUtils.random(PASSWORD_LENGTH - 1, CHARACTERS);

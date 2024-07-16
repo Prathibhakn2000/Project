@@ -28,13 +28,12 @@ public class SignUpRepoImpl implements SignUpRepo {
         System.out.println("Running save method in SignUpRepoImpl");
         EntityManager manager = this.entityManagerFactory.createEntityManager();
         EntityTransaction tx = manager.getTransaction();
-        tx.begin();
+
 
         try {
-
-           manager.persist(signUpDTO);
-            //manager.merge(signUpDTO);
-
+            tx.begin();
+          // manager.persist(signUpDTO);
+            manager.merge(signUpDTO);
             tx.commit();
         } catch (PersistenceException persistenceException) {
             persistenceException.printStackTrace();

@@ -46,6 +46,7 @@
       </a>
       <a class="navbar-brand" href="index.jsp"><b>Home</b></a>
     </div>
+
   </div>
 </nav>
 

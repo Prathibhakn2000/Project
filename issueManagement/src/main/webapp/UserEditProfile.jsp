@@ -37,6 +37,9 @@
 
 
            </div>
+            <!---image display in profile--!>
+                <img src="${pageContext.request.contextPath}${sessionScope.profileImage}" alt="Profile" width="80" height="80" class="rounded-circle">
+
         </div>
     </nav>
 
@@ -99,7 +102,7 @@
 
 <div class="mb-3">
  <!-- Existing fields -->
-    <input type="hidden" name="signUpDTO.id" value="${signUpDTO.id}">
+   <!-- <input type="hidden" name="signUpDTO.id" value="${signUpDTO.id}">-->
    <label for="file" class="form-label text-dark"><b>Choose File<b></label>
    <input type="file" class="form-control" name="file" id="file">
 </div>
@@ -108,6 +111,7 @@
 
 <center> <input type="submit" class="btn btn-primary" id="submit" value="UpadteProfile"  /></center>
 </form>
+
 </div>
   </div>
     </div>

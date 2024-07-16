@@ -1,4 +1,3 @@
-
 package com.xworkz.issuemanagement.model.repository;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
@@ -9,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 public class EditProfileRepoImpl implements EditProfileRepo {
@@ -27,11 +28,15 @@ public class EditProfileRepoImpl implements EditProfileRepo {
         transaction.begin();
         try {
             String query = "select s from SignUpDTO s where s.email = :email";
-            SignUpDTO singleResult = entityManager.createQuery(query, SignUpDTO.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
+            TypedQuery<SignUpDTO> typedQuery = entityManager.createQuery(query, SignUpDTO.class)
+                    .setParameter("email", email);
+            List<SignUpDTO> resultList = typedQuery.getResultList();
             transaction.commit();
-            return singleResult;
+            if (!resultList.isEmpty()) {
+                return resultList.get(0);
+            } else {
+                return null;
+            }
         } catch (PersistenceException persistenceException) {
             persistenceException.printStackTrace();
             transaction.rollback();
@@ -56,14 +61,16 @@ public class EditProfileRepoImpl implements EditProfileRepo {
                 existingUser.setAddress(updatedUserDetails.getAddress());
                 existingUser.setUpdatedBy(updatedUserDetails.getUpdatedBy());
                 existingUser.setUpdatedOn(updatedUserDetails.getUpdatedOn());
+                //save image name in signup database
+                existingUser.setImageName(updatedUserDetails.getImageName());
 
                 entityManager.merge(existingUser);
-                entityTransaction.commit();
+               entityTransaction.commit();
                 return existingUser;
             }
         } catch (PersistenceException persistenceException) {
             persistenceException.printStackTrace();
-            entityTransaction.rollback();
+            //entityTransaction.rollback();
         } finally {
             entityManager.close();
         }

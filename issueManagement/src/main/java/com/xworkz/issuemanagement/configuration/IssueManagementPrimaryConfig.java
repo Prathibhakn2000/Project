@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan("com.xworkz.issuemanagement")
 @PropertySource("classpath:application.properties")
-@EnableWebMvc
+@EnableWebMvc // server side validation
 public class IssueManagementPrimaryConfig implements WebMvcConfigurer {
 
     public IssueManagementPrimaryConfig() {
@@ -37,7 +38,7 @@ public class IssueManagementPrimaryConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**").addResourceLocations("/javaScript/");
         //set path for image display
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("C:\\Users\\Prathibha Gowda\\OneDrive\\Desktop\\Image");
+                .addResourceLocations("file:///C:/Users/Prathibha Gowda/OneDrive/Desktop/Image/");
     }
 
     @Bean
@@ -47,6 +48,14 @@ public class IssueManagementPrimaryConfig implements WebMvcConfigurer {
         multipartResolver.setMaxUploadSize(10485760); // 10MB
         return multipartResolver;
     }
+
+    @Bean
+    public StandardServletMultipartResolver standardServletMultipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
+
+
+
 
 }
 

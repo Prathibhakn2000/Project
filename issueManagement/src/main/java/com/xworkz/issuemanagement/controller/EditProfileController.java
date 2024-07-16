@@ -24,15 +24,20 @@ public class EditProfileController {
     @Autowired
     private HttpSession httpSession;
 
+
+
     @GetMapping("/edit-profile")
     public String showUserDetails(Model model) {
         SignUpDTO signUpDTO = (SignUpDTO) httpSession.getAttribute("signUpDTO");
         if (signUpDTO != null) {
             model.addAttribute("signUpDTO", signUpDTO);
+
             // Set the signed-in user email in session if not already set
             if (httpSession.getAttribute("signedInUserEmail") == null) {
                 httpSession.setAttribute("signedInUserEmail", signUpDTO.getFirstName());
             }
+
+
             System.out.println("Signed-in user email: " + signUpDTO.getEmail());
         } else {
             System.out.println("User email not found in session.");

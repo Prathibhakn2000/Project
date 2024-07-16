@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/")
 @SessionAttributes("signUpDTO")
@@ -17,6 +19,9 @@ public class ViewProfileController {
 
     @Autowired
     private ViewProfileSerivce userProfileViewSerivce;
+
+
+
 
 
     public ViewProfileController() {

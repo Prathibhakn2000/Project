@@ -29,6 +29,10 @@
       <a class="navbar-brand" href="index.jsp"><b>Home</b></a>
        <a class="navbar-brand" href="Profile.jsp"><b>Profile</b></a>
     </div>
+    <!---image display in profile--!>
+         <img src="${pageContext.request.contextPath}${sessionScope.profileImage}" alt="Profile" width="80" height="80" class="rounded-circle">
+
+
   </div>
 </nav>
 
