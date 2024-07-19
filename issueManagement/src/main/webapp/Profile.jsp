@@ -21,8 +21,6 @@
     <div class="dropdown">
       <div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="${pageContext.request.contextPath}${sessionScope.profileImage}" alt="Profile" width="80" height="80" class="rounded-circle">
-        <!-- Default Profile Icon -->
-        <!--<img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" alt="Profile" width="50" height="50" class="rounded-circle">-->
       </div>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
         <li><a class="dropdown-item" href="edit-profile"><strong>Edit</strong></a></li>

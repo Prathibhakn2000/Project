@@ -67,7 +67,6 @@ public class ImageUploadController {
                 Files.write(path, file.getBytes());
                 signUpDTO.setImageName(newFileName);
 
-
                 //here we have to call saveAndValidate method for saving imageName into signup table
                // signUpService.validateAndsave(signUpDTO);
                 editProfileService.updateSignupDtoByEmail(signUpDTO);

@@ -3,6 +3,7 @@ package com.xworkz.issuemanagement.model.service;
 import com.xworkz.issuemanagement.dto.SignUpDTO;
 import com.xworkz.issuemanagement.model.repository.SignInRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -17,16 +18,24 @@ public class SignInServiceImpl implements  SignInService{
     @Autowired
     private SignInRepo signInRepo;
 
+ @Autowired
+ private  PasswordEncoder passwordEncoder;
+
  //Signin
     @Override
     public SignUpDTO findByEmailAndPassword(String email, String password) {
-        SignUpDTO user = signInRepo.findByEmailAndPassword(email, password);
 
-        if (user != null && user.getPassword().equals(password) && !user.isAccountLocked()) {
-            return user;
+        SignUpDTO signUpDTO = signInRepo.findByEmailAndPassword(email, password);
+        //password encrypt
+        SignUpDTO signUpDTO1  =this.signInRepo.findByEmailID(email);
+
+        if (signUpDTO1 != null && passwordEncoder.matches(password,signUpDTO1.getPassword()) && !signUpDTO1.isAccountLocked()) {
+
+            return signUpDTO1;
 
         }
-        return null;
+        return signUpDTO;
+        //return user;
     }
 
     //Lock account when give 3 times wrong Password
@@ -81,5 +90,7 @@ public class SignInServiceImpl implements  SignInService{
         }
 
     }
+
+
 }
 

@@ -12,4 +12,6 @@ public interface SignInRepo {
 
 
     boolean update(SignUpDTO signUpDto);// this method is used for updatedBy and UpdatedOn
+
+    SignUpDTO findByEmailID(String email);//password encoding
 }

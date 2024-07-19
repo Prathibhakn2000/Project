@@ -95,5 +95,26 @@ public class SignInRepoImpl implements SignInRepo {
         return true;
     }
 
+    @Override
+    public SignUpDTO findByEmailID(String email) {
+        System.out.println("Running findByEmailId method... ");
+        EntityManager entityManager =entityManagerFactory.createEntityManager();
+        try {
+            Query query =entityManager.createQuery("Select s from SignUpDTO s where s.email=:email");
+            query.setParameter("email",email);
+            SignUpDTO signUpDTO= (SignUpDTO) query.getSingleResult();
+            //entityTransaction.commit();
+            return signUpDTO;
+        }
+        catch (PersistenceException persistenceException)
+        {
+            persistenceException.getStackTrace();
+            //entityTransaction.rollback();
+        }
+        finally {
+            entityManager.close();
+        }
+        return null;
+    }
 }
 

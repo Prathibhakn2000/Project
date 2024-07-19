@@ -1,5 +1,6 @@
 package com.xworkz.issuemanagement.model.repository;
 
+import com.xworkz.issuemanagement.dto.ImageUploadDTO;
 import com.xworkz.issuemanagement.dto.SignUpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,7 +33,7 @@ public class SignUpRepoImpl implements SignUpRepo {
 
         try {
             tx.begin();
-          // manager.persist(signUpDTO);
+          //manager.persist(signUpDTO);
             manager.merge(signUpDTO);
             tx.commit();
         } catch (PersistenceException persistenceException) {
@@ -43,6 +44,7 @@ public class SignUpRepoImpl implements SignUpRepo {
         }
         return true;
     }
+
 
 
 }

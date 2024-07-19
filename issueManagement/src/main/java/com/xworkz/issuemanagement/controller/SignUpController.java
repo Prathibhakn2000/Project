@@ -38,10 +38,8 @@ public class SignUpController {
             {
                 System.out.println("SignUpService registration successful in SignUpController:"+signUpDTO);
                 model.addAttribute("signUpDTO",signUpDTO);
-                //Sending password to email
-                String subject = "Welcome to Our Service";
-                String body = "Hi " + signUpDTO.getFirstName()+ ",\n\nYour registration is successful. Your password is " + signUpDTO.getPassword();
-                emailService.sendSimpleEmail(email, subject, body);
+
+                return "SignIn";
 
             }
 
@@ -50,8 +48,8 @@ public class SignUpController {
                 System.out.println("SignUpService registration not successful in SignUpController:"+signUpDTO);
             }
             model.addAttribute("msg", "Registration successful :" + signUpDTO.getFirstName()+signUpDTO.getLastName());
-
         return "SignIn";
+
     }
 
 }

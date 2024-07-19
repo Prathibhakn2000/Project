@@ -53,7 +53,7 @@ public class PassWordGenerator {
         // Ensure at least one special character
         String specialCharacter = RandomStringUtils.random(1, SPECIAL_CHARACTERS);
 
-        //String digit=RandomStringUtils.random(1,DIGIT);
+        //String digit=RandomStringUtils.random(1);
 
         // Generate remaining characters from CHARACTERS
         String remainingCharacters = RandomStringUtils.random(PASSWORD_LENGTH - 1, CHARACTERS);

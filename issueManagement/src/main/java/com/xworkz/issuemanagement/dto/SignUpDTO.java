@@ -61,6 +61,9 @@ public class SignUpDTO {
     @Column(name = "account_locked")
     private boolean accountLocked=false;
 
+    @Column(name = "image_name")
+    private String imageName;
+
 
 
 
@@ -185,8 +188,7 @@ public class SignUpDTO {
         this.accountLocked = accountLocked;
     }
 
-    @Column(name = "image_name")
-    private String imageName;
+
 
     public String getImageName() {
         return imageName;

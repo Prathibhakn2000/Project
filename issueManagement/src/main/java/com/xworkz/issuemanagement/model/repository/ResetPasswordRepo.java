@@ -6,5 +6,5 @@ public interface ResetPasswordRepo {
 
     boolean verifyOldPassword(String email, String oldPassword);
 
-    void updatePassword(String email, String newPassword);
+    boolean updatePassword(String email, String newPassword);
 }

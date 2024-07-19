@@ -6,4 +6,6 @@ public interface SignUpRepo {
 
     //saving data
     boolean save(SignUpDTO signUpDTO);
+
+
 }

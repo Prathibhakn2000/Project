@@ -49,7 +49,7 @@ public class ResetPasswordRepoImpl implements ResetPasswordRepo {
     }
 
     @Override
-    public void updatePassword(String email, String newPassword) {
+    public boolean updatePassword(String email, String newPassword) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
@@ -67,5 +67,6 @@ public class ResetPasswordRepoImpl implements ResetPasswordRepo {
         } finally {
             entityManager.close();
         }
+        return false;
     }
 }

@@ -59,6 +59,8 @@ public class SignInController {
             HttpSession httpSession=request.getSession();
             //  view (set sessionfor email)
             httpSession.setAttribute("SignedInUserEmail",email);
+            // iamge display
+
 
             //update
             httpSession.setAttribute("signUpDTO",signUpDTO);

@@ -17,6 +17,7 @@
       </a>
     <a class="navbar-brand" href="SignUp.jsp"><b>SignUp</b></a>
     <a class="navbar-brand" href="SignIn.jsp"><b>SignIn</b></a>
+    <a class="navbar-brand" href="RaiseComplaint.jsp"><b>RaiseComplaint</b></a>
 
 
 

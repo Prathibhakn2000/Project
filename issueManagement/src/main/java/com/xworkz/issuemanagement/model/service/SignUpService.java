@@ -13,4 +13,10 @@ public interface SignUpService {
     void setAudit(SignUpDTO signUpDTO, String createdBy, LocalDateTime createdOn,boolean isActive);
 
 
+
+
+
+
+
+
 }

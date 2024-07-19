@@ -4,6 +4,8 @@ import com.xworkz.issuemanagement.dto.SignUpDTO;
 import com.xworkz.issuemanagement.model.repository.SignUpRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,13 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Autowired
     private SignUpRepo signUpRepo;
+
+    //password Encrypt
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+   private  EmailService emailService;
 
 
  public SignUpServiceImpl()
@@ -38,13 +47,25 @@ public class SignUpServiceImpl implements SignUpService {
 
         setAudit(signUpDTO, createdBy, createdOn, isActive);
 
+        //default image logo
+        signUpDTO.setImageName("default.jpeg");
+
         //generating password stored in database
+//        String generatedPassword = PassWordGenerator.generatePassword();
+//        signUpDTO.setPassword(generatedPassword);
+
         String generatedPassword = PassWordGenerator.generatePassword();
-        signUpDTO.setPassword(generatedPassword);
+      signUpDTO.setPassword(passwordEncoder.encode(generatedPassword));
+
 
 
         boolean save = this.signUpRepo.save(signUpDTO);
+
         if (save) {
+            //password send to email
+            signUpDTO.setPassword(generatedPassword);
+            emailService.sendSimpleEmail(signUpDTO);
+
             System.out.println("SignUp is Save successfully in service" + signUpDTO);
 
         } else {
@@ -65,7 +86,11 @@ public class SignUpServiceImpl implements SignUpService {
        // signUpDTO.setUpdatedBy(updatedBy);
 //        signUpDTO.setUpdatedOn(updatedOn);
         signUpDTO.setActive(isActive);
+
+
     }
+
+
 
 
 }
