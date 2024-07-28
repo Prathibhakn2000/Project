@@ -37,6 +37,18 @@ public class RaiseComplaintDTO {
     @Column(name = "description")
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY) // Example mapping assuming many images to one signup
+    @JoinColumn(name = "s_id", referencedColumnName = "id") // Adjust as per your schema
+    private SignUpDTO signUpDTO;
+
+    public SignUpDTO getSignUpDTO() {
+        return signUpDTO;
+    }
+
+    public void setSignUpDTO(SignUpDTO signUpDTO) {
+        this.signUpDTO = signUpDTO;
+    }
+
     public int getComplaintId() {
         return complaintId;
     }
@@ -112,6 +124,7 @@ public class RaiseComplaintDTO {
                 ", area='" + area + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
+                ", signUpDTO=" + signUpDTO +
                 '}';
     }
 }

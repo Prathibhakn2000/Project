@@ -6,6 +6,6 @@ public interface ResetPasswordService {
 
     //send Reset password to email
 
-    public void sendPasswordEmail(String toEmail, String subject, String body);
+    //public void sendPasswordEmail(String toEmail, String subject, String body);
 
 }

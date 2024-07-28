@@ -50,23 +50,26 @@ public class ResetPasswordRepoImpl implements ResetPasswordRepo {
 
     @Override
     public boolean updatePassword(String email, String newPassword) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        try {
-            entityTransaction.begin();
-            String query = "UPDATE SignUpDTO e SET e.password = :password WHERE e.email = :email";
-            Query query1 = entityManager.createQuery(query);
-            query1.setParameter("password", newPassword);
-            query1.setParameter("email", email);
-            int executeData = query1.executeUpdate();
-            System.out.println(executeData);
-            entityTransaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            entityTransaction.rollback();
-        } finally {
-            entityManager.close();
+         EntityManager entityManager = entityManagerFactory.createEntityManager();
+            EntityTransaction entityTransaction = entityManager.getTransaction();
+            try {
+                entityTransaction.begin();
+                String query = "UPDATE SignUpDTO e SET e.password = :password WHERE e.email = :email";
+                Query query1 = entityManager.createQuery(query);
+                query1.setParameter("password", newPassword);
+                query1.setParameter("email", email);
+                int executeData = query1.executeUpdate();
+                System.out.println(executeData);
+                entityTransaction.commit();
+                return executeData > 0; // Return true if at least one record was updated
+            } catch (Exception e) {
+                e.printStackTrace();
+                entityTransaction.rollback();
+                return false;
+            } finally {
+                entityManager.close();
+            }
         }
-        return false;
+
     }
-}
+

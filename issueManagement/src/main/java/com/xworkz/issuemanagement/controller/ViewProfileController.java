@@ -21,7 +21,8 @@ public class ViewProfileController {
     private ViewProfileSerivce userProfileViewSerivce;
 
 
-
+    @Autowired
+    private  HttpSession httpSession;
 
 
     public ViewProfileController() {
@@ -38,6 +39,8 @@ public class ViewProfileController {
 
         // Add the user data to the model
         model.addAttribute("signUpDTO", signUpDTO);
+
+        //httpSession.setAttribute("firstName", signUpDTO.getFirstName()+signUpDTO.getLastName());
 
         // Return the view name
         return "UserViewProfile";

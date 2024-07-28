@@ -26,15 +26,19 @@ public class ResetPasswordController {
                                 @RequestParam("newpassword") String newPassword,
                                 @RequestParam("confirmpassword") String confirmPassword) {
 
+        System.out.println("Password reset request received for email: " + email);
+
         boolean resetSuccessful = resetPasswordService.resetPassword(email, oldPassword, newPassword, confirmPassword);
         if (resetSuccessful) {
-            System.out.println("Password reset Successful: " + resetSuccessful);
+            System.out.println("Password reset Successful for email: " + email);
             model.addAttribute("passwordResetMessage", "Password reset successful");
         } else {
-            model.addAttribute("passwordResetError", "Failed to reset password. Please check your password");
+            System.out.println("Password reset failed for email: " + email);
+            model.addAttribute("passwordResetError", "Failed to reset password. Please check your password and try again.");
+
+
         }
 
-        //return "ResetPassword";
-        return "SignIn";
+        return "ResetPassword";
     }
 }

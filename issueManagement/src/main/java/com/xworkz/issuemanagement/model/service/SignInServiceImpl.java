@@ -13,10 +13,8 @@ public class SignInServiceImpl implements  SignInService{
  {
      System.out.println("Creating SignInServiceImpl");
  }
-
-
-    @Autowired
-    private SignInRepo signInRepo;
+ @Autowired
+ private SignInRepo signInRepo;
 
  @Autowired
  private  PasswordEncoder passwordEncoder;
@@ -24,17 +22,17 @@ public class SignInServiceImpl implements  SignInService{
  //Signin
     @Override
     public SignUpDTO findByEmailAndPassword(String email, String password) {
-
-        SignUpDTO signUpDTO = signInRepo.findByEmailAndPassword(email, password);
         //password encrypt
         SignUpDTO signUpDTO1  =this.signInRepo.findByEmailID(email);
 
-        if (signUpDTO1 != null && passwordEncoder.matches(password,signUpDTO1.getPassword()) && !signUpDTO1.isAccountLocked()) {
+       // SignUpDTO signUpDTO = signInRepo.findByEmailAndPassword(email, password);
 
-            return signUpDTO1;
+        if (signUpDTO1 != null && passwordEncoder.matches(password,signUpDTO1.getPassword()) && !signUpDTO1.isAccountLocked()) {
+            System.out.println("signUpDTO1"+signUpDTO1);
+           return signUpDTO1;
 
         }
-        return signUpDTO;
+        return null;
         //return user;
     }
 

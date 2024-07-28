@@ -43,6 +43,9 @@ public class EditProfileController {
             System.out.println("User email not found in session.");
             // Handle session expired or not signed in
         }
+
+        httpSession.setAttribute("firstName", signUpDTO.getFirstName());
+
         return "UserEditProfile"; // Return the name of your JSP file
     }
 

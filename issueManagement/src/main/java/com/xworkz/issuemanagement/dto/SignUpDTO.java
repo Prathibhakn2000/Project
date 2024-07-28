@@ -65,9 +65,6 @@ public class SignUpDTO {
     private String imageName;
 
 
-
-
-
     public int getId() {
         return id;
     }

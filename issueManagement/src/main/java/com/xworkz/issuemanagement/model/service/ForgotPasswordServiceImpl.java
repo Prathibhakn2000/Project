@@ -1,6 +1,7 @@
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.emailSending.MailSending;
 import com.xworkz.issuemanagement.model.repository.ForgotpasswordRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailSending mailSending;
+
 
 
 //    @Override
@@ -37,8 +41,6 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 //
 //            //new password
 ////            String newPassword = PassWordGenerator.generatePassword();
-//            String newPassword = PassWordGenerator.generatePassword();
-//            signUpDTO.setPassword(passwordEncoder.encode(newPassword));
 //
 //
 //
@@ -72,21 +74,26 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
         if (user != null) {
             // Generate new password
             String newPassword = PassWordGenerator.generatePassword();
-            String encodedPassword = passwordEncoder.encode(newPassword);
-            user.setPassword(encodedPassword);
+            forgotpasswordRepo.updatePassword(email,passwordEncoder.encode(newPassword));
+//            String encodedPassword = passwordEncoder.encode(newPassword);
+             user.setPassword(newPassword);
+            //sending password to mail
+            mailSending.sendForgotPassword(user);
 
-            forgotpasswordRepo.updatePassword(email, encodedPassword);
+
+
+            //forgotpasswordRepo.updatePassword(email, encodedPassword);
 
             // Reset failed attempts and unlock account
             signInService.resetFailedAttempts(email);
             signInService.unlockAccount(email);
 
-            // Send the email with the new password
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(email);
-            message.setSubject("Password Reset");
-            message.setText("Your new password is: " + newPassword);
-            javaMailSender.send(message);
+//            // Send the email with the new password
+//            SimpleMailMessage message = new SimpleMailMessage();
+//            message.setTo(email);
+//            message.setSubject("Password Reset");
+//            message.setText("Your new password is: " + newPassword);
+//            javaMailSender.send(message);
 
             return true;
         }

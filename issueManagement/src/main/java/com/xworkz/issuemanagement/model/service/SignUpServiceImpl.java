@@ -1,9 +1,11 @@
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.emailSending.MailSending;
 import com.xworkz.issuemanagement.model.repository.SignUpRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,8 @@ public class SignUpServiceImpl implements SignUpService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-   private  EmailService emailService;
+   //private  EmailService emailService;
+    private MailSending mailSending;
 
 
  public SignUpServiceImpl()
@@ -64,7 +67,7 @@ public class SignUpServiceImpl implements SignUpService {
         if (save) {
             //password send to email
             signUpDTO.setPassword(generatedPassword);
-            emailService.sendSimpleEmail(signUpDTO);
+            mailSending.sendSimpleEmail(signUpDTO);
 
             System.out.println("SignUp is Save successfully in service" + signUpDTO);
 

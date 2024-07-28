@@ -1,6 +1,7 @@
 package com.xworkz.issuemanagement.controller;
 
 import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.emailSending.MailSending;
 import com.xworkz.issuemanagement.model.service.EmailService;
 import com.xworkz.issuemanagement.model.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -25,7 +27,11 @@ public class SignUpController {
     private SignUpService signUpService;
 
     @Autowired
-    private EmailService emailService;
+   // private EmailService emailService;
+    private MailSending mailSending;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @PostMapping("/sign-up")
     public String signUp(@Valid SignUpDTO signUpDTO, Model model, @RequestParam("email") String email) {
@@ -39,6 +45,10 @@ public class SignUpController {
                 System.out.println("SignUpService registration successful in SignUpController:"+signUpDTO);
                 model.addAttribute("signUpDTO",signUpDTO);
 
+                //email id in dropdown
+                httpSession.setAttribute("email", signUpDTO.getEmail());
+                //httpSession.setAttribute("image",signUpDTO.getImage());
+
                 return "SignIn";
 
             }
@@ -47,7 +57,7 @@ public class SignUpController {
             {
                 System.out.println("SignUpService registration not successful in SignUpController:"+signUpDTO);
             }
-            model.addAttribute("msg", "Registration successful :" + signUpDTO.getFirstName()+signUpDTO.getLastName());
+            model.addAttribute("message", "SignUp successful :" + signUpDTO.getFirstName()+signUpDTO.getLastName());
         return "SignIn";
 
     }

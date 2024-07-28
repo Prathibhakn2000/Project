@@ -33,6 +33,20 @@
             }
         }
         window.onload = disableButton;
+
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            var toggleIcon = document.getElementById("togglePasswordIcon");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
     </script>
 </head>
 
@@ -55,7 +69,7 @@
     <div class="card-body">
       <h3><b><center>SIGNIN</center></b></h3>
       <form action="sign-in" method="post">
-        <center><strong><span style="color:green">${msg}</span></strong></center>
+        <center><strong><span style="color:green">${message}</span></strong></center>
         <center><strong><span style="color:green">${msg1}</span></strong></center>
         <center><strong><span style="color:red">${error}</span></strong></center>
 
@@ -74,18 +88,21 @@
           <div class="input-group">
             <span class="input-group-text"><i class="fas fa-lock"></i></span>
             <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password" onblur="passwordValidation()">
+            <span class="input-group-text"><i class="fas fa-eye" id="togglePasswordIcon" onclick="togglePasswordVisibility()"></i></span>
           </div>
         </div>
 
-        <div class="mb-3">
-          <a href="ForgotPassword.jsp" class="link-primary">Forgot Password?</a>
-        </div>
+      <center>  <input type="submit" class="btn btn-primary" id="signinButton" value="Sign in"> </center>
+      <br>
 
-        <div class="mb-3">
-          <a href="SignUp.jsp" class="link-primary">SignUp here?</a>
-        </div>
+      <center> <div class="mb-3">
+           <a href="ForgotPassword.jsp" class="link-primary">Forgot Password?</a>
+       </div></center>
 
-        <button type="submit" class="btn btn-primary" id="signinButton">Sign in</button>
+
+        <center> <div class="mb-3">
+                  <a href="SignUp.jsp" class="link-primary">SignUp here?</a>
+        </div></center>
 
       </form>
     </div>
