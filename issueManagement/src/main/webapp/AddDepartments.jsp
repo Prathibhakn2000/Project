@@ -42,7 +42,7 @@
   <div class="card highlight-card" style="width: 40%; padding: 20px;">
     <div class="card-body">
       <h3><b><center>Add Departments</center></b></h3>
-      <form action="add_department" method="post">
+      <form action="add-department" method="post">
 
              <span style="color:green"><strong>${message}</strong></span>
 

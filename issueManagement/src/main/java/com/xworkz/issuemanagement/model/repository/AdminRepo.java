@@ -1,9 +1,6 @@
 package com.xworkz.issuemanagement.model.repository;
 
-import com.xworkz.issuemanagement.dto.AdminDTO;
-import com.xworkz.issuemanagement.dto.DepartmentDTO;
-import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
-import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.dto.*;
 
 import java.util.List;
 
@@ -27,6 +24,21 @@ public interface AdminRepo {
 
     //save department
     boolean save(DepartmentDTO departmentDTO);
+
+    //getAllDepartments
+    List<DepartmentDTO> getAllDepartments();
+
+    //allocate the departments to complaints
+    void allocateDepartment(int complaintId, int deptId, String status);
+
+    // save department admin details
+    boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO);
+
+    //  matching email and password and signin successfully
+    DepartmentAdminDTO findByEmail(String email);
+    DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password);
+
+
 
 
 }

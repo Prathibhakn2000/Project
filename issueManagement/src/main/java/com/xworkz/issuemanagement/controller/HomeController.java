@@ -12,4 +12,11 @@ public class HomeController {
     {
         return "SignUp";
     }
+
+
+    @GetMapping("signin-page")
+    public String signInPage()
+    {
+        return "SignIn";
+    }
 }

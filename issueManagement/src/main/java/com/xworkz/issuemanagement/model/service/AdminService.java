@@ -1,5 +1,6 @@
 package com.xworkz.issuemanagement.model.service;
 
+import com.xworkz.issuemanagement.dto.DepartmentAdminDTO;
 import com.xworkz.issuemanagement.dto.DepartmentDTO;
 import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
 import com.xworkz.issuemanagement.dto.SignUpDTO;
@@ -31,6 +32,18 @@ public interface AdminService {
     //save departments
     boolean validateAndsave(DepartmentDTO departmentDTO);
 
+    //getAllDepartments
+    List<DepartmentDTO> getAllDepartments();
+
+    //allocate departments to complaint
+    void allocateDepartment(int complaintId, int deptId,String status);
+
+
+    //from here im going to save department admin details
+    boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO);
+
+    //matching the email and password
+    DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password);
 
 
 

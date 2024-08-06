@@ -113,6 +113,30 @@ public class RaiseComplaintDTO {
         this.description = description;
     }
 
+
+    @ManyToOne
+    @JoinColumn(name = "dept_id")
+    private DepartmentDTO departmentDTO;
+
+    @Column(name = "status")
+    private String status;
+
+    public DepartmentDTO getDepartmentDTO() {
+        return departmentDTO;
+    }
+
+    public void setDepartmentDTO(DepartmentDTO departmentDTO) {
+        this.departmentDTO = departmentDTO;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "RaiseComplaintDTO{" +
@@ -125,6 +149,8 @@ public class RaiseComplaintDTO {
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
                 ", signUpDTO=" + signUpDTO +
+                ", departmentDTO=" + departmentDTO +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

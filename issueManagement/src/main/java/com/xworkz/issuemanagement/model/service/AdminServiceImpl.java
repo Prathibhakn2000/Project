@@ -1,13 +1,15 @@
 package com.xworkz.issuemanagement.model.service;
 
-import com.xworkz.issuemanagement.dto.AdminDTO;
-import com.xworkz.issuemanagement.dto.DepartmentDTO;
-import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
-import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.dto.*;
+import com.xworkz.issuemanagement.emailSending.MailSending;
 import com.xworkz.issuemanagement.model.repository.AdminRepo;
+import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +17,15 @@ import java.util.List;
 public class AdminServiceImpl implements  AdminService {
     @Autowired
     private AdminRepo adminRepo;
+
+    //password Encrypt
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    //private  EmailService emailService;
+    private MailSending mailSending;
+
 
     @Override
     public boolean findByEmailAndPassword(String email, String password) {
@@ -94,19 +105,67 @@ public class AdminServiceImpl implements  AdminService {
     public boolean validateAndsave(DepartmentDTO departmentDTO) {
         System.out.println("Running validateAndsave method");
 
-
         boolean save = this.adminRepo.save(departmentDTO);
 
-        if (save) {
+        if (save)
 
-
-            System.out.println("department is Save successfully in service" + departmentDTO);
-
-        } else {
-            System.out.println("department is Not Save Successfully in service" + departmentDTO);
-
+            {
+                System.out.println("Save department successfully" + departmentDTO);
+                return true;
+            }
+            System.out.println("not saved department successfully" + departmentDTO);
+             return false;
         }
-        return true;
 
+
+    public List<DepartmentDTO> getAllDepartments() {
+        return adminRepo.getAllDepartments(); // Retrieve all departments
     }
+
+
+    @Override
+    public void allocateDepartment(int complaintId, int deptId, String status) {
+        System.out.println("Running  allocateDepartment method in adminserviceimpl...");
+        // Delegate the department allocation to the repository
+        adminRepo.allocateDepartment(complaintId, deptId, status);
+    }
+
+    @Override
+    public boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO) {
+        System.out.println("Running saveDepartmentAdmin in AdminService...");
+
+        String departmentadminpassword = PassWordGenerator.generatePassword();
+        departmentAdminDTO.setPassword(passwordEncoder.encode(departmentadminpassword));
+
+
+        boolean savedDepartmentAdmin = adminRepo.saveDepartmentAdmin(departmentAdminDTO);
+
+        if (savedDepartmentAdmin) {
+            System.out.println("Department Admin details saved successfully......" + departmentAdminDTO);
+           // mailSending.sendDepartmentPassword(departmentAdminDTO); // Send plain password
+            //password send to email
+            departmentAdminDTO.setPassword(departmentadminpassword);
+            mailSending.departmentAdminPassword(departmentAdminDTO);
+            return true;
+        }
+        System.out.println("Department Admin details not saved ......");
+        return false;
+    }
+
+
+    @Override
+    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password) {
+        System.out.println("Service: findByEmailIdAndPassword method...");
+        DepartmentAdminDTO departmentAdminDTO = this.adminRepo.findByEmail(email);
+        System.out.println("Service: data retrieved" + departmentAdminDTO);
+
+        if (departmentAdminDTO != null && passwordEncoder.matches(password, departmentAdminDTO.getPassword())) {
+            departmentAdminDTO.setPassword(null); // Clear the password for security
+            return departmentAdminDTO;
+        }
+
+        System.out.println("Service: data not found or password mismatch");
+        return null;
+    }
+
 }

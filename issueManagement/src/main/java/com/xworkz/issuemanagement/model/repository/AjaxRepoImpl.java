@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Repository
 public class AjaxRepoImpl implements AjaxRepo {
 
-
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
@@ -55,5 +54,7 @@ public class AjaxRepoImpl implements AjaxRepo {
 
     }
 }
+
+
 
 

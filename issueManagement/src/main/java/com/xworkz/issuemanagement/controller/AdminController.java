@@ -1,9 +1,6 @@
 package com.xworkz.issuemanagement.controller;
 
-import com.xworkz.issuemanagement.dto.AdminDTO;
-import com.xworkz.issuemanagement.dto.DepartmentDTO;
-import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
-import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.dto.*;
 import com.xworkz.issuemanagement.model.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,9 +78,11 @@ public class AdminController {
         System.out.println("viewUserDetails method running in AdminController");
 
         List<RaiseComplaintDTO> viewData = adminService.findById(raiseComplaintDTO);
+        List<DepartmentDTO> departments = adminService.getAllDepartments();
         model.addAttribute("viewRaiseComplaint", viewData);
         if (viewData != null) {
             System.out.println("View raise complaint data successful in AdminController");
+            model.addAttribute("departments", departments);
             return "AdminViewRaiseComplaintDetails";
         } else {
             System.out.println("View raise complaint data not successful in AdminController.");
@@ -90,162 +90,25 @@ public class AdminController {
         return "AdminViewRaiseComplaintDetails";
     }
 
-    //search by complaint  type
-
-//    @PostMapping("search-complaint")
-//    public String searchByComplaintType(RaiseComplaintDTO raiseComplaintDTO, Model model) {
-//
-//        System.out.println("searchByComplaintType method running  in   AdminController..");
-//        List<RaiseComplaintDTO> data = adminService.searchByComplaintType(raiseComplaintDTO);
-//        List<RaiseComplaintDTO> searchcity = adminService.searchByComplaintType(raiseComplaintDTO);
-//        model.addAttribute("complaintType", data);
-//
-//        if (data != null) {
-//            System.out.println("searchByComplaintType successful in AdminController..");
-//            return "SearchRaiseComplaint";
-//
-//        } else {
-//            System.out.println("searchByComplaintType not successful in AdminController.. ");
-//        }
-//
-//        if (searchcity != null) {
-//            System.out.println("searchByComplaintType successful in AdminController..");
-//            return "SearchRaiseComplaint";
-//
-//        } else {
-//            System.out.println("searchByComplaintType not successful in AdminController.. ");
-//
-//            return "SearchRaiseComplaint";
-//        }
-//    }
-
-
-//    @PostMapping("search-complaint")
-//    public String searchByComplaintType(RaiseComplaintDTO raiseComplaintDTO, Model model) {
-//        System.out.println("searchByComplaintType method running in AdminController..");
-//
-//        // Search by complaint type
-//        List<RaiseComplaintDTO> complainttypedata = adminService.searchByComplaintType(raiseComplaintDTO);
-//
-//        // Search by city
-//        List<RaiseComplaintDTO> citydata = adminService.searchComplaintByCity(raiseComplaintDTO);
-//
-//        String complaintType=raiseComplaintDTO.getComplaintType();
-//        String city=raiseComplaintDTO.getCity();
-//
-//        //Search by complainttype and city
-//         List<RaiseComplaintDTO> complainttypeandcitydata = adminService.searchComplaintByTypeAndCity(complaintType,city);
-//
-//        // Combine results
-//        List<RaiseComplaintDTO> combinedData = new ArrayList<>();
-//        if (complainttypedata != null && !complainttypedata.isEmpty()) {
-//            combinedData.addAll(complainttypedata);
-//        }
-//        if (citydata != null && !citydata.isEmpty()) {
-//            combinedData.addAll(citydata);
-//        }
-//
-//            if (complaintType != null && !complaintType.isEmpty() && city != null && !city.isEmpty()) {
-//               // List<RaiseComplaintDTO> complainttypeandcitydata = adminService.searchComplaintByTypeAndCity(complaintType, city);
-//                if (complainttypeandcitydata != null && !complainttypeandcitydata.isEmpty()) {
-//                    combinedData.addAll(complainttypeandcitydata);
-//                }
-//            }
-//
-//
-//        // Add combined data to the model
-//        model.addAttribute("complaintType", combinedData);
-//
-//        // Check if any data was found
-//        if (!combinedData.isEmpty()) {
-//            System.out.println("Data found for the given criteria in AdminController.");
-//        } else {
-//            System.out.println("No data found for the given criteria in AdminController.");
-//        }
-//
-//
-//        // Return the view
-//        return "SearchRaiseComplaint";
-//    }
-//
-//
-
-
-//    @PostMapping("search-complaint")
-//    public String searchByComplaintTypeOrCity(RaiseComplaintDTO raiseComplaintDTO, Model model) {
-//        System.out.println("searchByComplaintTypeOrCity method running in AdminController..");
-//
-//        String complaintType = raiseComplaintDTO.getComplaintType();
-//        String city = raiseComplaintDTO.getCity();
-//
-//        // Perform the search
-//        List<RaiseComplaintDTO> searchData = adminService.searchByComplaintTypeOrCity(complaintType, city);
-//
-//        List<RaiseComplaintDTO> searchData1 = adminService.searchByComplaintTypeAndCity(complaintType, city);
-//
-//        // Add data to the model
-//        model.addAttribute("complaintData", searchData);
-//
-//        // Check if any data was found
-//        if (!searchData.isEmpty()) {
-//            System.out.println("Data found for the given criteria in AdminController.");
-//        } else {
-//            System.out.println("No data found for the given criteria in AdminController.");
-//        }
-//
-//        // Return the view
-//        return "SearchRaiseComplaint";
-//    }
-//}
-
-//    @PostMapping("search-complaint")
-//    public String searchByComplaintTypeOrCity(RaiseComplaintDTO raiseComplaintDTO, Model model) {
-//        System.out.println("searchByComplaintTypeOrCity method running in AdminController..");
-//
-//        String complaintType = raiseComplaintDTO.getComplaintType();
-//        String city = raiseComplaintDTO.getCity();
-//
-//        List<RaiseComplaintDTO> searchData = Collections.emptyList();
-//
-//        // Check which fields are provided and perform the appropriate search
-//        if (complaintType != null && !complaintType.isEmpty() && city != null && !city.isEmpty()) {
-//            // Both complaint type and city are provided
-//            searchData = adminService.searchByComplaintTypeAndCity(complaintType, city);
-//        } else if (complaintType != null && !complaintType.isEmpty()) {
-//            // Only complaint type is provided
-//            searchData = adminService.searchByComplaintTypeOrCity(complaintType, null);
-//        } else if (city != null && !city.isEmpty()) {
-//            // Only city is provided
-//            searchData = adminService.searchByComplaintTypeOrCity(null, city);
-//        }
-//
-//        // Add data to the model
-//        model.addAttribute("complaintData", searchData);
-//
-//        // Check if any data was found
-//        if (!searchData.isEmpty()) {
-//            System.out.println("Data found for the given criteria in AdminController.");
-//        } else {
-//            System.out.println("No data found for the given criteria in AdminController.");
-//        }
-//
-//        // Return the view
-//        return "SearchRaiseComplaint";
-//    }
 
     @PostMapping("search-complaint")
     public String searchUserComplaintDetails(RaiseComplaintDTO raiseComplaintDTO, Model model) {
         System.out.println("viewUserDetails method in AdminController..");
 
         List<RaiseComplaintDTO> listOfComplaintTypeAndCity = adminService.searchByComplaintTypeAndCity(raiseComplaintDTO.getComplaintType(), raiseComplaintDTO.getCity());
+        List<DepartmentDTO> departments = adminService.getAllDepartments();
         if (!listOfComplaintTypeAndCity.isEmpty()) {
-            model.addAttribute("listOfComplaintType", listOfComplaintTypeAndCity);
+            model.addAttribute("viewRaiseComplaint", listOfComplaintTypeAndCity);
+
+            model.addAttribute("departments", departments);
+
             return "AdminViewRaiseComplaintDetails";
-        }
-        else {
+        } else {
             List<RaiseComplaintDTO> listOfComplaintTypeOrCity = adminService.searchByComplaintTypeOrCity(raiseComplaintDTO.getComplaintType(), raiseComplaintDTO.getCity());
             if (!listOfComplaintTypeOrCity.isEmpty()) {
-                model.addAttribute("listOfComplaintType", listOfComplaintTypeOrCity);
+                model.addAttribute("viewRaiseComplaint", listOfComplaintTypeOrCity);
+                model.addAttribute("departments", departments);
+
                 return "AdminViewRaiseComplaintDetails";
             }
         }
@@ -254,36 +117,84 @@ public class AdminController {
     }
 
 
- //save depts
-    @PostMapping("/add_department")
+    //save depts
+    @PostMapping("/add-department")
     public String signUp(@Valid DepartmentDTO departmentDTO, Model model) {
         System.out.println("department method running in department Controller..");
         System.out.println("DepartmentDTO ;" + departmentDTO);
 
 
         boolean dataValid = this.adminService.validateAndsave(departmentDTO);
-        if(dataValid)
-        {
-            System.out.println("department registration successful in departmentController:"+departmentDTO);
+        if (dataValid) {
+            System.out.println("department registration successful in departmentController:" + departmentDTO);
             model.addAttribute("message", "Department Add Successfully ");
-            return "redirect:/departments"; //getmapping action retuns
+            return "redirect:/department"; //getmapping action retuns
 
+        } else {
+            System.out.println("department registration not successful in departmentController:" + departmentDTO);
         }
 
-        else
-        {
-            System.out.println("department registration not successful in departmentController:"+departmentDTO);
-        }
-
-        return "redirect:/departments"; //getmapping action retuns
+        return "redirect:/department"; //getmapping action retuns
 
     }
 
     //when data enter and refresh it save double time in database to avoid use this
-    @GetMapping("departments")
-    public String saveDept(DepartmentDTO departmentDTO,Model model)
-    {
+    @GetMapping("department")
+    public String saveDept(DepartmentDTO departmentDTO, Model model) {
         model.addAttribute("message", "Department Add Successfully ");
         return "AddDepartments";
     }
-}
+
+    //allocate departs in complaint view
+    @PostMapping("/allocate-department")
+    public String allocateDepartment(
+            @RequestParam("complaintId") int complaintId,
+            @RequestParam("deptId") int deptId,
+            @RequestParam("status") String status,
+            Model model
+    ) {
+        try {
+            System.out.println("Running allocate department");
+
+            // Call the service method to allocate department
+            adminService.allocateDepartment(complaintId, deptId, status);
+            System.out.println("complaintId" + complaintId);
+            System.out.println("deptId" + deptId);
+            model.addAttribute("successMessage", "Department allocated successfully!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Failed to allocate department. Please try again.");
+            e.printStackTrace();
+        }
+        return "AdminViewRaiseComplaintDetails";
+
+    }
+
+    @PostMapping("/department-admins")
+    public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model) {
+
+        System.out.println("Running signInDepartmentAdmin method in AdminController...");
+        boolean deptAdminDto = adminService.saveDepartmentAdmin(departmentAdminDTO);
+        if (deptAdminDto) {
+            model.addAttribute("signInsuccess", "Successfully logined" + departmentAdminDTO);
+            return "DepartmentAdminSignIn";
+        }
+        model.addAttribute("signInFailed", "login failed" + departmentAdminDTO);
+        return "AddDepartmentAdmins";
+    }
+
+    @PostMapping("/admin-sign-in")
+    public String signInDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO,Model model)
+    {
+        //System.out.println("departPartAdmin"+departmentAdminDto);
+        System.out.println("Running signInDepartmentAdmin method in AdminController...");
+        DepartmentAdminDTO departmentAdminDTO1=adminService.findByDepartmentAdminEmailAndPassword(departmentAdminDTO.getEmail(),departmentAdminDTO.getPassword());
+        if(departmentAdminDTO1!=null)
+        {
+            model.addAttribute("msg1","Successfully logined");
+            return "DepartmentAdminSignIn";
+        }
+        model.addAttribute("msg1","login failed");
+        return "DepartmentAdminSignIn";
+    }
+    }
+

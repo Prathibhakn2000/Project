@@ -16,11 +16,8 @@
         <img src="https://x-workz.in/static/media/Logo.cf195593dc1b3f921369.png" alt="xworkz" width="140" height="70">
       </a>
     <a class="navbar-brand" href="signup-page"><b>SignUp</b></a>
-    <a class="navbar-brand" href="SignIn.jsp"><b>SignIn</b></a>
+    <a class="navbar-brand" href="signin-page"><b>SignIn</b></a>
      <a class="navbar-brand" href="Admin.jsp"><b>Admin</b></a>
-
-
-
 
 
 </div>

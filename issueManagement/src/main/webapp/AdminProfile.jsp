@@ -40,6 +40,7 @@
         <li><a class="dropdown-item" href="view-user-details"><strong>ViewUserDetails</strong></a></li>
         <li><a class="dropdown-item" href="view-raise-complaint"><strong>ViewRaiseComplaintDetails</strong></a></li>
          <li><a class="dropdown-item" href="AddDepartments.jsp"><strong>AddDepartments</strong></a></li>
+          <li><a class="dropdown-item" href="AddDepartmentAdmins.jsp"><strong>AddDepartmentAdmins</strong></a></li>
 
 
       </ul>

@@ -66,7 +66,7 @@ public class SignInController {
             httpSession.setAttribute("signUpDTO",signUpDTO);
 
 
-            //email id in dropdown
+            //email id in dropdown(user email)
             httpSession.setAttribute("email", signUpDTO.getEmail());
 
 

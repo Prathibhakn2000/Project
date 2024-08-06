@@ -4,7 +4,7 @@ import com.xworkz.issuemanagement.dto.SignUpDTO;
 
 public interface SignInService {
 
-    //sign
+    //matching the email and password
     SignUpDTO findByEmailAndPassword(String email, String password);
 
     //Lock account when give 3 times wrong Password

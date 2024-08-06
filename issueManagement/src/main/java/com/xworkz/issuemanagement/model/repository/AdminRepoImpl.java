@@ -1,9 +1,6 @@
 package com.xworkz.issuemanagement.model.repository;
 
-import com.xworkz.issuemanagement.dto.AdminDTO;
-import com.xworkz.issuemanagement.dto.DepartmentDTO;
-import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
-import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -191,7 +188,132 @@ public class AdminRepoImpl implements AdminRepo{
     }
 
 
+    @Override
+    public List<DepartmentDTO> getAllDepartments() {
+        System.out.println("Running getAllDepartments method in admin repo implementation...");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String query = "SELECT d FROM DepartmentDTO d";
+            Query query1 = entityManager.createQuery(query);
+            List<DepartmentDTO> resultList = query1.getResultList();
+            System.out.println("ResultList size: " + resultList.size());
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public void allocateDepartment(int complaintId, int deptId,String status) {
+        System.out.println("Running allocateDepartment method in AdminRepoImpl...");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+
+            // Find the complaint
+            RaiseComplaintDTO complaint = entityManager.find(RaiseComplaintDTO.class, complaintId);
+            if (complaint == null) {
+                throw new RuntimeException("Complaint not found for ID: " + complaintId);
+            }
+            System.out.println("Found complaint: " + complaint);
+
+            // Find the department
+            DepartmentDTO department = entityManager.find(DepartmentDTO.class, deptId);
+            if (department == null) {
+                throw new RuntimeException("Department not found for ID: " + deptId);
+            }
+            System.out.println("Found department: " + department);
+
+            // Set the department for the complaint
+            complaint.setDepartmentDTO(department);
+            complaint.setStatus(status);
+
+            // Merge the updated complaint
+            complaint = entityManager.merge(complaint);
+            System.out.println("Updated complaint after merge: " + complaint);
+
+            entityTransaction.commit();
+            System.out.println("Department allocated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (entityTransaction.isActive()) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    // save departments admin data
+    @Override
+    public boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO) {
+        System.out.println("Running saveDepartmentAdmin in AdminRepoImpl...");
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            EntityTransaction entityTransaction = entityManager.getTransaction();
+
+            try {
+                entityTransaction.begin();
+                entityManager.persist(departmentAdminDTO); // Use persist for new entities
+                entityTransaction.commit();
+                return true;
+            } catch (PersistenceException e) {
+                entityTransaction.rollback();
+                e.printStackTrace();
+                return false;
+            } finally {
+                entityManager.close();
+            }
+        }
+
+    @Override
+    public DepartmentAdminDTO findByEmail(String email) {
+        System.out.println("Running findByEmailId method...");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        DepartmentAdminDTO departmentAdminDTO = null;
+        try {
+            Query query = entityManager.createQuery("SELECT s FROM DepartmentAdminDTO s WHERE s.email = :email");
+            query.setParameter("email", email);
+            departmentAdminDTO = (DepartmentAdminDTO) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("No user found with email: " + email);
+        } catch (NonUniqueResultException e) {
+            System.out.println("Multiple users found with email: " + email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return departmentAdminDTO;
+    }
+
+    @Override
+    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password) {
+
+        System.out.println("Running findByDepartmentAdminEmailAndPassword method...");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            Query query = entityManager.createQuery("Select s from DepartmentAdminDTO s where s.email = :email and s.password = :password");
+            query.setParameter("email", email);
+            query.setParameter("password", password);
+            return (DepartmentAdminDTO) query.getSingleResult();
+        } catch (NoResultException e) {
+            // Handle case where no result is found
+            return null;
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return null;
+    }
 }
+
+
+
 
 
 

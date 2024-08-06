@@ -55,9 +55,12 @@
               </div>
           </nav>
 
-          <div class="container mt-5 mb-5">
-              <!-- Search Form for Complaints -->
+          <div class="d-flex justify-content-center mt-3 mb-2 align-items-center vh-80">
+            <div class="card highlight-card" style="width: 20%; padding: 10px;">
+              <div class="card-body">
 
+
+              <!-- Search Form for Complaints -->
               <form action="search-complaint" method="post">
                  <h3><b>Raise Complaint</b></h3>
                  <div class="row mb-3">
@@ -81,13 +84,19 @@
                  <div>
                    <input type="submit" id="submit" value="Submit">
                  </div>
+
                </form>
+               </div>
+               </div>
+               </div>
+               <br>
 
                  <!-- View of Raised Complaints -->
+
               <div class="card">
                   <div class="card-header">
                       <h3><b>Complaint Details </b></h3>
-                  </div>
+
                   <div class="card-body">
 
                   <table class="table table-bordered">
@@ -103,7 +112,11 @@
                                       <th>Address</th>
                                       <th>Description</th>
                                       <th>UserId</th>
+                                       <th>Status</th>
                                       <th>Allocate Department</th>
+
+                                      <th>Submit</th>
+
 
 
                                   </tr>
@@ -121,32 +134,44 @@
                                           <td>${viewRaiseComplaintUsers.address}</td>
                                           <td>${viewRaiseComplaintUsers.description}</td>
                                           <td>${viewRaiseComplaintUsers.signUpDTO.id}</td>
-                                    </tr>
-                                  </c:forEach>
 
-                                      <!-- Iterating over the second collection  search complaint-->
-                                   <c:forEach items="${listOfComplaintType}" var="complaint" varStatus="status">
-                                               <tr>
-                                                 <td>${status.index + 1}</td>
-                                                 <td>${complaint.complaintId}</td>
-                                                 <td>${complaint.complaintType}</td>
-                                                 <td>${complaint.country}</td>
-                                                 <td>${complaint.state}</td>
-                                                 <td>${complaint.city}</td>
-                                                 <td>${complaint.area}</td>
-                                                 <td>${complaint.address}</td>
-                                                 <td>${complaint.description}</td>
-                                                 <td>${complaint.signUpDTO.id}</td>
-                                               </tr>
-                                             </c:forEach>
+
+                              <form action="allocate-department" method="post">
+                               <td >
+                               <div style="width:110px;">
+
+
+                                <input type="hidden" name="complaintId" value="${viewRaiseComplaintUsers.complaintId}" id="complaintId">
+
+                               <select class="form-select" name="status" id="status">
+                               <option selected >${complaint.status}</option>
+                               <option value="Pending">Pending</option>
+                               <option value="Active">Active</option>
+                               </select>
+                               </div>
+
+                               <td>
+                               <div style="width:110px;">
+                                          <select class="form-select" name="deptId" id="deptId">
+                                              <c:forEach var="department" items="${departments}">
+                                                 <option value="${department.deptId}">${department.departmentType}</option>
+                                              </c:forEach>
+                                          </select>
+                               </div>
+
+                               </td>
+                               <td>
+                                <button type="submit" class="btn btn-primary mt-2">submit</button>
+                                </td>
+                                 </form>
+                           </tr>
+                       </c:forEach>
 
                                   </tbody>
                               </table>
                           </div>
                       </div>
                   </div>
-
-
 
                   </body>
                   </html>
