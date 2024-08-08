@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="/issueManagement/js/SignUpValidation.js"></script>
+    <script src="/issueManagement/js/SignupAjax.js"></script>
     <style>
         .highlight-card {
             border: 2px solid #f8f9fa;
@@ -108,7 +109,7 @@
         </label>
       </div>
       <br>
-<script src="/issueManagement/js/SignupAjax.js"></script>
+
 
       <center><input type="submit" class="btn btn-primary" id="submit" value="SignUp"></i></center>
 

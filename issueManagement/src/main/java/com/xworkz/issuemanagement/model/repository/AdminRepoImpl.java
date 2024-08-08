@@ -164,7 +164,7 @@ public class AdminRepoImpl implements AdminRepo{
 
 
     @Override
-    public boolean save(DepartmentDTO departmentDTO) {
+    public boolean saveDepartments(DepartmentDTO departmentDTO) {
 
         System.out.println("Running save method");
 
@@ -272,6 +272,11 @@ public class AdminRepoImpl implements AdminRepo{
     @Override
     public DepartmentAdminDTO findByEmail(String email) {
         System.out.println("Running findByEmailId method...");
+        if (entityManagerFactory == null) {
+            System.out.println("entityManagerFactory is null");
+            return null;
+        }
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         DepartmentAdminDTO departmentAdminDTO = null;
         try {
@@ -289,6 +294,7 @@ public class AdminRepoImpl implements AdminRepo{
         }
         return departmentAdminDTO;
     }
+
 
     @Override
     public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password) {
@@ -310,7 +316,67 @@ public class AdminRepoImpl implements AdminRepo{
         }
         return null;
     }
+
+    @Override
+    public boolean updateDeptAdminDetails(DepartmentAdminDTO departmentAdminDTO) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+
+        try {
+            tx.begin();
+            entityManager.merge(departmentAdminDTO);
+            tx.commit();
+        } catch (PersistenceException persistenceException) {
+            persistenceException.printStackTrace();
+            tx.rollback();
+            return false;
+        } finally {
+            entityManager.close();
+        }
+        return true;
+    }
+
+    @Override
+    public DepartmentDTO searchByDeptType(String departmentType) {
+        System.out.println("Running searchByDeptType method");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String query = "SELECT d FROM DepartmentDTO d WHERE d.departmentType = :departmentType";
+            Query result=entityManager.createQuery(query);
+            result.setParameter("departmentType",departmentType);
+            DepartmentDTO departmentDTO=(DepartmentDTO) result.getSingleResult();
+            return departmentDTO;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return null;
+    }
+
+
+    @Override
+    public List<DepartmentDTO> getAllDepts() {
+        System.out.println("Running getAllDepartments method in Department admin repo implementation...");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String query = "SELECT d FROM DepartmentDTO d";
+            Query query1 = entityManager.createQuery(query);
+            List<DepartmentDTO> resultList = query1.getResultList();
+            System.out.println("ResultList size: " + resultList.size());
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return Collections.emptyList();
+    }
+
+
 }
+
 
 
 

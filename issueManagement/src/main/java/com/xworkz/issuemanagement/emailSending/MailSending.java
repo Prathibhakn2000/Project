@@ -52,7 +52,7 @@ public class MailSending {
         mailSender .send(message);
     }
 
-    public void departmentAdminPassword(DepartmentAdminDTO departmentAdminDTO) {
+    public void sendDeptAdminPassword(DepartmentAdminDTO departmentAdminDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(departmentAdminDTO.getEmail());
         message.setSubject(" Department Admin SignIn Passoword ");
@@ -62,6 +62,30 @@ public class MailSending {
                 "XworkzProject Team");
         mailSender.send(message);
     }
+
+    public void adminSendForgotPassword(DepartmentAdminDTO departmentAdminDTO) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(departmentAdminDTO.getEmail());
+        message.setSubject(" Forgot Password ");
+        message.setText("Dear " + departmentAdminDTO.getFullName() + " " + ", Your Forgot Password is,\n\n" +
+                "Please Sign in through this password: " + departmentAdminDTO.getPassword() + "\n\n" +
+                "Thanks and Regards,\n" + " " +
+                "XworkzProject Team");
+        mailSender .send(message);
+    }
+
+    public void adminSendresetPassword(DepartmentAdminDTO departmentAdminDTO,String newPassword) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(departmentAdminDTO.getEmail());
+        message.setSubject(" Reset Password ");
+        message.setText("Dear " + departmentAdminDTO.getFullName() +  ", Your Reset Password is,\n\n" +
+                "Please Sign in through this password: " + newPassword + "\n\n" +
+                "Thanks and Regards,\n" + " " +
+                "XworkzProject Team");
+        mailSender .send(message);
+    }
+
+
     }
 
 

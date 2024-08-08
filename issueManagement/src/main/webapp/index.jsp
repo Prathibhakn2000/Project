@@ -18,6 +18,8 @@
     <a class="navbar-brand" href="signup-page"><b>SignUp</b></a>
     <a class="navbar-brand" href="signin-page"><b>SignIn</b></a>
      <a class="navbar-brand" href="Admin.jsp"><b>Admin</b></a>
+     <a class="navbar-brand" href="getdeptfor-signin"><b>DeptAdmin</b></a>
+
 
 
 </div>

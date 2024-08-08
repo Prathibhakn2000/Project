@@ -6,12 +6,15 @@ import com.xworkz.issuemanagement.model.repository.AdminRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.MailException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+
+import static com.xworkz.issuemanagement.util.PassWordGenerator.generatePassword;
 
 @Service
 public class AdminServiceImpl implements  AdminService {
@@ -105,17 +108,15 @@ public class AdminServiceImpl implements  AdminService {
     public boolean validateAndsave(DepartmentDTO departmentDTO) {
         System.out.println("Running validateAndsave method");
 
-        boolean save = this.adminRepo.save(departmentDTO);
+        boolean save = this.adminRepo.saveDepartments(departmentDTO);
 
-        if (save)
-
-            {
-                System.out.println("Save department successfully" + departmentDTO);
-                return true;
-            }
-            System.out.println("not saved department successfully" + departmentDTO);
-             return false;
+        if (save) {
+            System.out.println("Save department successfully" + departmentDTO);
+            return true;
         }
+        System.out.println("not saved department successfully" + departmentDTO);
+        return false;
+    }
 
 
     public List<DepartmentDTO> getAllDepartments() {
@@ -134,7 +135,7 @@ public class AdminServiceImpl implements  AdminService {
     public boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO) {
         System.out.println("Running saveDepartmentAdmin in AdminService...");
 
-        String departmentadminpassword = PassWordGenerator.generatePassword();
+        String departmentadminpassword = generatePassword();
         departmentAdminDTO.setPassword(passwordEncoder.encode(departmentadminpassword));
 
 
@@ -142,10 +143,10 @@ public class AdminServiceImpl implements  AdminService {
 
         if (savedDepartmentAdmin) {
             System.out.println("Department Admin details saved successfully......" + departmentAdminDTO);
-           // mailSending.sendDepartmentPassword(departmentAdminDTO); // Send plain password
+            // mailSending.sendDepartmentPassword(departmentAdminDTO); // Send plain password
             //password send to email
             departmentAdminDTO.setPassword(departmentadminpassword);
-            mailSending.departmentAdminPassword(departmentAdminDTO);
+            mailSending.sendDeptAdminPassword(departmentAdminDTO);
             return true;
         }
         System.out.println("Department Admin details not saved ......");
@@ -168,4 +169,171 @@ public class AdminServiceImpl implements  AdminService {
         return null;
     }
 
+    //Lock account when give 3 times wrong Password
+    @Override
+    public void incrementFailedAttempts(String email) {
+        DepartmentAdminDTO admin = adminRepo.findByEmail(email);
+        if (admin != null) {
+            int attempts = admin.getFailedAttempt() + 1;
+            admin.setFailedAttempt(attempts);
+            if (attempts >= 3) {
+                admin.setAccountLocked(true);
+            }
+            adminRepo.updateDeptAdminDetails(admin);
+        }
+
+    }
+
+    @Override
+    public int getFailedAttempts(String email) {
+        DepartmentAdminDTO admin = adminRepo.findByEmail(email);
+        return (admin != null) ? admin.getFailedAttempt() : 0;
+    }
+
+    @Override
+    public void resetFailedAttempts(String email) {
+        DepartmentAdminDTO admin = adminRepo.findByEmail(email);
+        if (admin != null) {
+            admin.setFailedAttempt(0); //false
+            adminRepo.updateDeptAdminDetails(admin);
+        }
+
+    }
+
+    @Override
+    public void lockAccount(String email) {
+        DepartmentAdminDTO admin = adminRepo.findByEmail(email);
+        if (admin != null) {
+            admin.setAccountLocked(true);
+            adminRepo.updateDeptAdminDetails(admin);
+        }
+
+    }
+
+    //forgot password when accout lock then it will accout unlock
+    @Override
+    public void unlockAccount(String email) {
+        DepartmentAdminDTO admin = adminRepo.findByEmail(email);
+        if (admin != null) {
+            admin.setAccountLocked(false);
+            adminRepo.updateDeptAdminDetails(admin);
+        }
+
+    }
+
+    @Override
+    public boolean adminForgotPassword(String email) {
+        System.out.println("Running forgotPassword in ForgetPasswordServiceImpl.. ");
+        DepartmentAdminDTO departmentAdminDTO = adminRepo.findByEmail(email);
+        if (departmentAdminDTO != null) {
+            //Generating Random password and sending it...
+            String newPassword = generatePassword();
+            departmentAdminDTO.setPassword(passwordEncoder.encode(newPassword));
+            // signupDto.setPassword(encoder.encode(newPassword));
+            adminRepo.updateDeptAdminDetails(departmentAdminDTO);
+            departmentAdminDTO.setPassword(newPassword);
+            //sendPassword(departmentAdminDTO);
+            mailSending.adminSendForgotPassword(departmentAdminDTO);
+
+            //Reset failed attempts
+            this.resetFailedAttempts(email);
+            this.unlockAccount(email);
+            System.out.println("Data is existing " + departmentAdminDTO);
+
+            return true;
+
+        } else {
+            System.out.println(" Data is not existing" + departmentAdminDTO);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean adminChangePassword(String email, String oldPassword, String newPassword, String confirmPassword) {
+        System.out.println("Attempting to change password for email: " + email);
+
+        // Step 1: Check if newPassword matches confirmPassword
+        if (!newPassword.equals(confirmPassword)) {
+            System.out.println("New password and confirm password do not match.");
+            return false;
+        }
+
+        // Step 2: Retrieve departmentAdminDto based on emailId
+        if (adminRepo == null) {
+            System.out.println("adminRepo is null");
+            return false;
+        }
+
+        DepartmentAdminDTO departmentAdminDTO = this.adminRepo.findByEmail(email);
+        if (departmentAdminDTO == null) {
+            System.out.println("User with email " + email + " not found.");
+            return false;
+        }
+
+        String storedPassword = departmentAdminDTO.getPassword();
+        System.out.println("Stored password: " + storedPassword);
+
+        // Step 3: Verify oldPassword matches the stored password
+        if (passwordEncoder == null) {
+            System.out.println("passwordEncoder is null");
+            return false;
+        }
+
+        if (!passwordEncoder.matches(oldPassword, storedPassword)) {
+            System.out.println("Old password verification failed for email: " + email);
+            return false; // Old password doesn't match
+        }
+
+        // Step 4: Encode and update the new password in SignupDto
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        departmentAdminDTO.setPassword(encodedNewPassword);
+
+        // Step 5: Save the updated password in the repository
+        if (adminRepo == null) {
+            System.out.println("adminRepo is null before updateDeptAdminDetails");
+            return false;
+        }
+
+        boolean save = adminRepo.updateDeptAdminDetails(departmentAdminDTO);
+
+        // Step 6: Send email notification if password update was successful
+        if (save) {
+            System.out.println("Password updated successfully for email: " + email);
+            try {
+                if (mailSending == null) {
+                    System.out.println("mailSending is null");
+                    return false;
+                }
+                mailSending.adminSendresetPassword(departmentAdminDTO, newPassword);
+                return true; // Password successfully updated and email sent
+            } catch (MailException e) {
+                e.printStackTrace();
+                return false; // Indicate failure if email sending failed
+            }
+        }
+
+        return false; // Password update failed
+    }
+
+    @Override
+    public DepartmentDTO searchByDeptType(String departmentType) {
+        System.out.println("Running searchByDeptType method in AdminServiceImpl... ");
+        DepartmentDTO departmentDTO=adminRepo.searchByDeptType(departmentType);
+        if(departmentDTO!=null)
+        {
+            System.out.println("FindBy Department Name successfully"+departmentType);
+            return departmentDTO;
+        }
+
+        System.out.println("FindBy Department Name successfully"+departmentType);
+        return null;
+
+    }
+
+    @Override
+    public List<DepartmentDTO> getAllDepts() {
+        return adminRepo.getAllDepartments(); // Retrieve all departments
+    }
+
 }
+

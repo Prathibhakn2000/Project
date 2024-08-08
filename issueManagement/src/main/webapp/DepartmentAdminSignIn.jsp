@@ -71,6 +71,18 @@
       <form action="admin-sign-in" method="post">
 
         <center><strong><span style="color:green">${msg1}</span></strong></center>
+         <center><strong><span style="color:red">${error}</span></strong></center>
+
+
+         <div class="mb-3">
+                    <label for="department" class="form-label">Department :</label>
+              <select class="form-select" name="departmentType" id="departmentType">
+                     <c:forEach var="department" items="${departmentsforsignin}">
+                         <option value="${department.departmentType}">${department.departmentType}</option>
+                     </c:forEach>
+                 </select>
+              </select>
+               </div>
 
 
         <div class="mb-3">
@@ -96,7 +108,7 @@
       <br>
 
       <center> <div class="mb-3">
-           <a href="ForgotPassword.jsp" class="link-primary">Forgot Password?</a>
+           <a href="DepartmentAdminForgotPassword.jsp" class="link-primary">Forgot Password?</a>
        </div></center>
 
 

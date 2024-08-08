@@ -29,35 +29,26 @@
       </a>
       <a class="navbar-brand" href="index.jsp"><b>Home</b></a>
     </div>
-
     <div class="dropdown">
       <div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Admin
+
+
+        <img src="${pageContext.request.contextPath}${sessionScope.profileImage}" alt="Profile" width="80" height="80" class="rounded-circle">
 
       </div>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
 
-        <li><a class="dropdown-item" href="view-user-details"><strong>ViewUserDetails</strong></a></li>
-        <li><a class="dropdown-item" href="view-raise-complaint"><strong>ViewRaiseComplaintDetails</strong></a></li>
-         <li><a class="dropdown-item" href="AddDepartments.jsp"><strong>AddDepartments</strong></a></li>
-          <li><a class="dropdown-item" href="get-all-departments"><strong>AddDepartmentAdmins</strong></a></li>
 
+       <!-- Displaying the user's name or email -->
+           <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>${sessionScope.email}</b></span> <!-- or ${sessionScope.userEmail} -->
+        <br>
+        <br>
+
+        <li><a class="dropdown-item" href="DepartmentAdminResetPassword.jsp"><strong>Reset Password</strong></a></li>
 
       </ul>
     </div>
   </div>
 </nav>
-
- <form action="/edit-profile" method="post">
-
-      <center>
-          <strong style="color:blue">
-              <h3 class="mt-5   extra-margin-top">${AdminProfilePageMessage}</h3>
-          </strong>
-      </center>
-
-  </form>
-
-
 </body>
 </html>

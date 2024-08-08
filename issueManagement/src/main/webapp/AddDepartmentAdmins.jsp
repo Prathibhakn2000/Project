@@ -34,6 +34,8 @@
         <img src="https://x-workz.in/static/media/Logo.cf195593dc1b3f921369.png" alt="xworkz" width="140" height="70">
       </a>
 
+
+
     </div>
   </div>
 </nav>
@@ -55,17 +57,14 @@
       </div>
       </div>
 
-      <div class="row mb-3">
-        <span id="departmentNameError"></span>
-         <label for="departmentName" class="form-label"><b>Department</b></label>
-         <select class="form-select custom-select-width" id="departmentName" name="departmentName" required>
-         <option value="0" ${raiseComplaintDTO.complaintType == null ? 'selected' : ''}>Select</option>
-         <option value="Electric Problem" ${raiseComplaintDTO.complaintType == 'Electric Problem' ? 'selected' : ''}>Electric Problem</option>
-         <option value="Network Problem" ${raiseComplaintDTO.complaintType == 'Network Problem' ? 'selected' : ''}>Network Problem</option>
-         <option value="Noise Problem" ${raiseComplaintDTO.complaintType == 'Noise Problem' ? 'selected' : ''}>Noise Problem</option>
-         <option value="System Problem" ${raiseComplaintDTO.complaintType == 'System Problem' ? 'selected' : ''}>System Problem</option>
-         <option value="Water Problem" ${raiseComplaintDTO.complaintType == 'Water Problem' ? 'selected' : ''}>Water Problem</option>
-          </select><br>
+      <div class="mb-3">
+           <label for="department" class="form-label">Department :</label>
+            <select class="form-select" name="departmentType" id="departmentType">
+                   <c:forEach var="department" items="${departments}">
+                       <option value="${department.departmentType}">${department.departmentType}</option>
+                   </c:forEach>
+               </select>
+            </select>
       </div>
 
       <div class="mb-3">

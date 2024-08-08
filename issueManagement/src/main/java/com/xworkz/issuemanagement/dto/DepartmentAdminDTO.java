@@ -15,8 +15,8 @@ public class DepartmentAdminDTO {
     @Column(name = "department_admin_name" )
     private String fullName;
 
-    @Column(name = "department_name" )
-    private String departmentName;
+//    @Column(name = "department_name" )
+//    private String departmentName;
 
     @Column(name = "admin_email" )
     private String email;
@@ -32,6 +32,23 @@ public class DepartmentAdminDTO {
 
     @Column(name = "password" )
     private String password;
+
+    @Column(name = "failed_attempts")
+    private int failedAttempt=0;
+
+    public static final int Max_LOGIN_ATTEMPTS=3;
+    @Column(name = "account_locked")
+    private boolean accountLocked=false;
+
+   //@ManyToOne(fetch = FetchType.LAZY)
+   // @JoinColumn(name = "fk_department_id",referencedColumnName = "department_id") //parent...left one child
+    @ManyToOne
+    @JoinColumn(name = "fk_department_id" )
+    private  DepartmentDTO deptId;
+
+    @Column(name = "department_type" )
+    private String departmentType;
+
 
     public int getDepartmentAdminId() {
         return departmentAdminId;
@@ -49,13 +66,6 @@ public class DepartmentAdminDTO {
         this.fullName = fullName;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
 
     public String getEmail() {
         return email;
@@ -97,17 +107,52 @@ public class DepartmentAdminDTO {
         this.password = password;
     }
 
+    public int getFailedAttempt() {
+        return failedAttempt;
+    }
+
+    public void setFailedAttempt(int failedAttempt) {
+        this.failedAttempt = failedAttempt;
+    }
+
+    public boolean isAccountLocked() {
+        return accountLocked;
+    }
+
+    public void setAccountLocked(boolean accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+
+    public DepartmentDTO getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(DepartmentDTO deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getDepartmentType() {
+        return departmentType;
+    }
+
+    public void setDepartmentType(String departmentType) {
+        this.departmentType = departmentType;
+    }
+
     @Override
     public String toString() {
         return "DepartmentAdminDTO{" +
                 "departmentAdminId=" + departmentAdminId +
                 ", fullName='" + fullName + '\'' +
-                ", departmentName='" + departmentName + '\'' +
                 ", email='" + email + '\'' +
                 ", contactNumber=" + contactNumber +
                 ", alternativeContactNumber=" + alternativeContactNumber +
                 ", address='" + address + '\'' +
                 ", password='" + password + '\'' +
+                ", failedAttempt=" + failedAttempt +
+                ", accountLocked=" + accountLocked +
+                ", deptId=" + deptId +
+                ", departmentType='" + departmentType + '\'' +
                 '}';
     }
 }

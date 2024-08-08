@@ -77,13 +77,13 @@ public class SignInRepoImpl implements SignInRepo {
     }
 
     @Override
-    public boolean update(SignUpDTO signUpDto) {
+    public boolean update(SignUpDTO signUpDTO) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
 
         try {
             tx.begin();
-            entityManager.merge(signUpDto);
+            entityManager.merge(signUpDTO);
             tx.commit();
         } catch (PersistenceException persistenceException) {
             persistenceException.printStackTrace();

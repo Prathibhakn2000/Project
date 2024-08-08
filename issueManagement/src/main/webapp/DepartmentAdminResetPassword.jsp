@@ -46,20 +46,19 @@
   <div class="card highlight-card" style="width: 40%; padding: 20px;">
     <div class="card-body">
       <h3><b><center>Reset Password</center></b></h3>
-      <form action="reset-password" method="post">
+      <form action="deptadmin-reset-password" method="post">
         <center><strong><span style="color:green">${passwordResetMessage}</span></strong></center>
         <center><strong><span style="color:green">${passwordResetError}</span></strong></center>
 
-        <div class="mb-3">
-          <span id="emailError" style="color: red;"></span><br>
-          <label for="email"><b>Email address</b></label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-            <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" value="${sessionScope.signUpDTO.getEmail()}" disabled>
-          </div>
-          <!-- Hidden input field for email
-          <input type="hidden" name="email" value="${sessionScope.signUpDTO.getEmail()}">-->
-        </div>
+
+         <div class="mb-3">
+                  <span id="emailError" style="color: red;"></span><br>
+                  <label for="email"><b>Email address</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" value="${sessionScope.email}" readonly>
+                  </div>
+                </div>
 
         <div class="mb-3">
           <span id="oldpasswordError" style="color: red;"></span><br>

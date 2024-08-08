@@ -23,7 +23,7 @@ public interface AdminRepo {
     List<RaiseComplaintDTO> searchByComplaintTypeAndCity(String complaintType, String city);
 
     //save department
-    boolean save(DepartmentDTO departmentDTO);
+    boolean saveDepartments(DepartmentDTO departmentDTO);
 
     //getAllDepartments
     List<DepartmentDTO> getAllDepartments();
@@ -37,6 +37,20 @@ public interface AdminRepo {
     //  matching email and password and signin successfully
     DepartmentAdminDTO findByEmail(String email);
     DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password);
+
+
+    //update the deptadmins details
+    boolean updateDeptAdminDetails(DepartmentAdminDTO departmentAdminDTO);
+
+
+    DepartmentDTO searchByDeptType(String departmentType);
+
+    List<DepartmentDTO> getAllDepts();
+
+
+
+
+
 
 
 

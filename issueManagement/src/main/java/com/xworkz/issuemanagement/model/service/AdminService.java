@@ -45,6 +45,30 @@ public interface AdminService {
     //matching the email and password
     DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password);
 
+    //Lock account when give 3 times wrong Password
+    void incrementFailedAttempts(String email);
+
+    int getFailedAttempts(String email);
+
+    void resetFailedAttempts(String email);
+
+    void lockAccount(String email);
+
+    //when account lock after 3 attemps then forgot password it will unlock
+    void unlockAccount(String email);
+
+   //forgot password
+    boolean adminForgotPassword(String email);
+
+   // change password
+    boolean adminChangePassword(String email, String oldPassword, String newPassword, String confirmPassword);
+
+    //
+    DepartmentDTO searchByDeptType(String departmentType);
+
+    List<DepartmentDTO> getAllDepts();
+
+
 
 
 }
