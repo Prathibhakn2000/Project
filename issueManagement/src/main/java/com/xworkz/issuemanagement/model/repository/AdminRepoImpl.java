@@ -3,6 +3,7 @@ package com.xworkz.issuemanagement.model.repository;
 import com.xworkz.issuemanagement.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -297,14 +298,15 @@ public class AdminRepoImpl implements AdminRepo{
 
 
     @Override
-    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password) {
+    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password,String departmentType) {
 
         System.out.println("Running findByDepartmentAdminEmailAndPassword method...");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            Query query = entityManager.createQuery("Select s from DepartmentAdminDTO s where s.email = :email and s.password = :password");
+            Query query = entityManager.createQuery("Select s from DepartmentAdminDTO s where s.email = :email and s.password = :password and s.departmentType =: departmentType" );
             query.setParameter("email", email);
             query.setParameter("password", password);
+            query.setParameter("departmentType",departmentType);
             return (DepartmentAdminDTO) query.getSingleResult();
         } catch (NoResultException e) {
             // Handle case where no result is found
@@ -337,7 +339,7 @@ public class AdminRepoImpl implements AdminRepo{
     }
 
     @Override
-    public DepartmentDTO searchByDeptType(String departmentType) {
+    public DepartmentDTO searchByDeptName(String departmentType) {
         System.out.println("Running searchByDeptType method");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
@@ -374,8 +376,30 @@ public class AdminRepoImpl implements AdminRepo{
         return Collections.emptyList();
     }
 
+    //to view particulart department complaints by department admin
 
-}
+    @Override
+    public List<RaiseComplaintDTO> findByUSerComplaintType(String complaintType) {
+        System.out.println("findByUserComplaintType method in AdminRepoImpl...");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String query = "SELECT r FROM RaiseComplaintDTO r where r.complaintType=:complaintType";
+            Query query1 = entityManager.createQuery(query);
+            query1.setParameter("complaintType", complaintType);
+            List<RaiseComplaintDTO> data =query1.getResultList();
+            System.out.println("DTO: " + data);
+            System.out.println("Data size: " + data.size()); // Print the number of records fetched
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return Collections.emptyList();
+    }
+    }
+
+
 
 
 

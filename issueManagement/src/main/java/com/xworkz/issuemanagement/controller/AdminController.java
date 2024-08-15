@@ -175,7 +175,7 @@ public class AdminController {
     @PostMapping("/department-admins")
     public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model) {
 
-        DepartmentDTO departmentDTO=adminService.searchByDeptType(departmentAdminDTO.getDepartmentType());
+        DepartmentDTO departmentDTO=adminService.searchByDeptName(departmentAdminDTO.getDepartmentType());
         departmentAdminDTO.setDeptId(departmentDTO);
 
         System.out.println("Running signInDepartmentAdmin method in AdminController...");
@@ -196,16 +196,18 @@ public class AdminController {
     }
 
     @PostMapping("/admin-sign-in")
-    public String signInDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model,HttpSession httpSession,@RequestParam String email) {
+    public String signInDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model,HttpSession httpSession,@RequestParam String email,RedirectAttributes redirectAttributes) {
         //System.out.println("departPartAdmin"+departmentAdminDto);
         System.out.println("Running signInDepartmentAdmin method in AdminController...");
-        DepartmentAdminDTO adminDTO = adminService.findByDepartmentAdminEmailAndPassword(departmentAdminDTO.getEmail(), departmentAdminDTO.getPassword());
+        DepartmentAdminDTO adminDTO = adminService.findByDepartmentAdminEmailAndPassword(departmentAdminDTO.getEmail(), departmentAdminDTO.getPassword(),departmentAdminDTO.getDepartmentType());
         if (adminDTO != null && !adminDTO.isAccountLocked()) {
             adminService.resetFailedAttempts(departmentAdminDTO.getEmail());
             model.addAttribute("msg1", "Successfully logined");
 
             //email id in dropdown
            httpSession.setAttribute("email", departmentAdminDTO.getEmail());
+
+           httpSession.setAttribute("deptadmin",adminDTO);
 
 
             return "DepartmentAdminProfile";
@@ -223,34 +225,35 @@ public class AdminController {
                 model.addAttribute("error", "Invalid email id and password. Attempts: " + failedAttempts);
                 model.addAttribute("accountLocked", false);
                 System.out.println(" data are not exists" + departmentAdminDTO);
-                return "DepartmentAdminSignIn";
+                return "redirect:/getdeptfor-signin";
             }
 
         }
     }
 
-        @GetMapping("/getdeptfor-signin")
+        @GetMapping("/getdeptfor-signin")  //action in href
         public String getdept(Model model){
             List<DepartmentDTO> departments = adminService.getAllDepartments();
             model.addAttribute("departmentsforsignin",departments);
+            //model.addAttribute("error", "Your account is locked due to too many failed attempts.");
             return "DepartmentAdminSignIn";
         }
 
 
     @PostMapping("/deptadmin-forgot-password")
-    public String adminForgotPassword (@RequestParam("email") String email, Model model)
-    {
+    public String adminForgotPassword (@RequestParam("email") String email, Model model) {
         System.out.println("Running forgetPassword method in ForgetPasswordController...");
         boolean success = adminService.adminForgotPassword(email);
         if (success) {
             model.addAttribute("forgotMessage", "A new Password has been sent to your email");
-            return "DepartmentAdminSignIn";
+            return "redirect:/getdeptfor-signin";
         } else {
             model.addAttribute("forgotError", "Email address not found.");
             return "DepartmentAdminForgotPassword";
         }
-
     }
+
+
 
     @PostMapping("/deptadmin-reset-password")
     public String passwordReset(@RequestParam("email") String email, @RequestParam("oldpassword") String oldPassword,
@@ -273,6 +276,23 @@ public class AdminController {
 
         return "DepartmentAdminResetPassword";
     }
+
+// dept admin view particular complaint by particular deptType
+    @GetMapping("deptAdmin-view-raise-complaints")
+    public String adminViewUserComplaintDetails(RaiseComplaintDTO raiseComplaintDTO, Model model, HttpServletRequest request) {
+        System.out.println("adminViewUserComplaintDetails method in AdminController..");
+        HttpSession session = request.getSession();
+        DepartmentAdminDTO departmentAdminDto = (DepartmentAdminDTO) session.getAttribute("deptadmin");
+
+        // Assuming findByUSerComplaintType requires a string like department name
+        String departmenttype = departmentAdminDto.getDepartmentType(); // Use the correct method to retrieve the string
+        List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmenttype);
+
+        model.addAttribute("viewDepartmentComplaints", viewDepartmentComplaints);
+
+        return "DepartmentAdminViewRaiseComplaints";
+    }
+
 
 }
 

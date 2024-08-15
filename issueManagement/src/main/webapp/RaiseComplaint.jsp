@@ -56,11 +56,11 @@
             <span class="input-group-text"><i class="fas fa-exclamation-triangle"></i></span>
             <select class="form-select custom-select-width" id="complaintType" name="complaintType" required>
                                  <option value="0" ${raiseComplaintDTO.complaintType == null ? 'selected' : ''}>Select</option>
-                                 <option value="Electric issue" ${raiseComplaintDTO.complaintType == 'Electric Problem' ? 'selected' : ''}>Electric Problem</option>
-                                 <option value="Network Problem" ${raiseComplaintDTO.complaintType == 'Network Problem' ? 'selected' : ''}>Network Problem</option>
-                                  <option value="Noise Problem" ${raiseComplaintDTO.complaintType == 'Noise Problem' ? 'selected' : ''}>Noise Problem</option>
-                                 <option value="System Problem" ${raiseComplaintDTO.complaintType == 'System Problem' ? 'selected' : ''}>System Problem</option>
-                                 <option value="Water Supply" ${raiseComplaintDTO.complaintType == 'Water Problem' ? 'selected' : ''}>Water Problem</option>
+                                 <option value="Electric " ${raiseComplaintDTO.complaintType == 'Electric ' ? 'selected' : ''}>Electric </option>
+                                 <option value="Network " ${raiseComplaintDTO.complaintType == 'Network ' ? 'selected' : ''}>Network </option>
+                                  <option value="Noise " ${raiseComplaintDTO.complaintType == 'Noise ' ? 'selected' : ''}>Noise </option>
+                                 <option value="System " ${raiseComplaintDTO.complaintType == 'System ' ? 'selected' : ''}>System </option>
+                                 <option value="Water " ${raiseComplaintDTO.complaintType == 'Water ' ? 'selected' : ''}>Water </option>
 
                                  </select><br>
                              </div>

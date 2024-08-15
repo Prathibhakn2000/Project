@@ -36,16 +36,21 @@ public interface AdminRepo {
 
     //  matching email and password and signin successfully
     DepartmentAdminDTO findByEmail(String email);
-    DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password);
+    DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password,String departmentType);
 
 
     //update the deptadmins details
     boolean updateDeptAdminDetails(DepartmentAdminDTO departmentAdminDTO);
 
 
-    DepartmentDTO searchByDeptType(String departmentType);
+    DepartmentDTO searchByDeptName(String departmentType);
 
     List<DepartmentDTO> getAllDepts();
+
+    //findByUserDepartmentAdminId for admin view
+    List<RaiseComplaintDTO> findByUSerComplaintType(String complaintType);
+
+
 
 
 

@@ -15,8 +15,8 @@ public class DepartmentAdminDTO {
     @Column(name = "department_admin_name" )
     private String fullName;
 
-//    @Column(name = "department_name" )
-//    private String departmentName;
+    @Column(name = "department_type" )
+    private String departmentType;
 
     @Column(name = "admin_email" )
     private String email;
@@ -46,9 +46,9 @@ public class DepartmentAdminDTO {
     @JoinColumn(name = "fk_department_id" )
     private  DepartmentDTO deptId;
 
-    @Column(name = "department_type" )
-    private String departmentType;
-
+//    @Column(name = "department_type" )
+//    private String departmentType;
+//
 
     public int getDepartmentAdminId() {
         return departmentAdminId;
@@ -66,6 +66,13 @@ public class DepartmentAdminDTO {
         this.fullName = fullName;
     }
 
+    public String getDepartmentType() {
+        return departmentType;
+    }
+
+    public void setDepartmentType(String departmentType) {
+        this.departmentType = departmentType;
+    }
 
     public String getEmail() {
         return email;
@@ -131,19 +138,21 @@ public class DepartmentAdminDTO {
         this.deptId = deptId;
     }
 
-    public String getDepartmentType() {
-        return departmentType;
-    }
+//    public String getDepartmentType() {
+//        return departmentType;
+//    }
+//
+//    public void setDepartmentType(String departmentType) {
+//        this.departmentType = departmentType;
+//    }
 
-    public void setDepartmentType(String departmentType) {
-        this.departmentType = departmentType;
-    }
 
     @Override
     public String toString() {
         return "DepartmentAdminDTO{" +
                 "departmentAdminId=" + departmentAdminId +
                 ", fullName='" + fullName + '\'' +
+                ", departmentType='" + departmentType + '\'' +
                 ", email='" + email + '\'' +
                 ", contactNumber=" + contactNumber +
                 ", alternativeContactNumber=" + alternativeContactNumber +
@@ -152,7 +161,6 @@ public class DepartmentAdminDTO {
                 ", failedAttempt=" + failedAttempt +
                 ", accountLocked=" + accountLocked +
                 ", deptId=" + deptId +
-                ", departmentType='" + departmentType + '\'' +
                 '}';
     }
 }

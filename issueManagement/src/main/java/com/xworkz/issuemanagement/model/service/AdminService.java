@@ -43,7 +43,7 @@ public interface AdminService {
     boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO);
 
     //matching the email and password
-    DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password);
+    DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password,String departmentType);
 
     //Lock account when give 3 times wrong Password
     void incrementFailedAttempts(String email);
@@ -64,9 +64,13 @@ public interface AdminService {
     boolean adminChangePassword(String email, String oldPassword, String newPassword, String confirmPassword);
 
     //
-    DepartmentDTO searchByDeptType(String departmentType);
+    DepartmentDTO searchByDeptName(String departmentType);
 
     List<DepartmentDTO> getAllDepts();
+
+    //List<DepartmentAdminDto> findByUserDepartmentAdminId();
+
+    List<RaiseComplaintDTO> findByUSerComplaintType(String complaintType);
 
 
 

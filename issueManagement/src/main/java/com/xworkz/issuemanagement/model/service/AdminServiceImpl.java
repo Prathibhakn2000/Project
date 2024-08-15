@@ -155,12 +155,12 @@ public class AdminServiceImpl implements  AdminService {
 
 
     @Override
-    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password) {
+    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password,String departmentType) {
         System.out.println("Service: findByEmailIdAndPassword method...");
         DepartmentAdminDTO departmentAdminDTO = this.adminRepo.findByEmail(email);
         System.out.println("Service: data retrieved" + departmentAdminDTO);
 
-        if (departmentAdminDTO != null && passwordEncoder.matches(password, departmentAdminDTO.getPassword())) {
+        if (departmentAdminDTO != null && passwordEncoder.matches(password, departmentAdminDTO.getPassword())&& !departmentAdminDTO.isAccountLocked() && departmentAdminDTO.getDepartmentType().equals(departmentType)) {
             departmentAdminDTO.setPassword(null); // Clear the password for security
             return departmentAdminDTO;
         }
@@ -316,9 +316,9 @@ public class AdminServiceImpl implements  AdminService {
     }
 
     @Override
-    public DepartmentDTO searchByDeptType(String departmentType) {
+    public DepartmentDTO searchByDeptName(String departmentType) {
         System.out.println("Running searchByDeptType method in AdminServiceImpl... ");
-        DepartmentDTO departmentDTO=adminRepo.searchByDeptType(departmentType);
+        DepartmentDTO departmentDTO=adminRepo.searchByDeptName(departmentType);
         if(departmentDTO!=null)
         {
             System.out.println("FindBy Department Name successfully"+departmentType);
@@ -335,5 +335,22 @@ public class AdminServiceImpl implements  AdminService {
         return adminRepo.getAllDepartments(); // Retrieve all departments
     }
 
+    @Override
+    public List<RaiseComplaintDTO> findByUSerComplaintType(String complaintType) {
+
+        System.out.println("findByUSerComplaintType method in AdminServiceImpl..");
+        List<RaiseComplaintDTO> dtoData = adminRepo.findByUSerComplaintType( complaintType);
+        if (dtoData != null) {
+            System.out.println("findByComplaintType data successful in AdminServiceImpl..");
+            return dtoData;
+        } else {
+            System.out.println("findByComplaintType data not successful in AdminServiceImpl..");
+        }
+
+        return Collections.emptyList();
+    }
+
 }
+
+
 
