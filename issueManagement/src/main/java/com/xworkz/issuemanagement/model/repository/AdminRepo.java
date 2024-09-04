@@ -51,6 +51,13 @@ public interface AdminRepo {
     List<RaiseComplaintDTO> findByUSerComplaintType(String complaintType);
 
 
+    //getAllEmployee
+    List<EmployeeDTO> getAllEmployees();
+
+    //allocate employee
+    void allocateEmployee(int complaintId, int employeeId, String status);
+
+
 
 
 

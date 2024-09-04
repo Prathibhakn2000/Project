@@ -350,6 +350,19 @@ public class AdminServiceImpl implements  AdminService {
         return Collections.emptyList();
     }
 
+    @Override
+    public List<EmployeeDTO> getAllEmployees() {
+        return adminRepo.getAllEmployees();
+    }
+
+    @Override
+    public void allocateEmployee(int complaintId, int employeeId, String status) {
+        System.out.println("Running  allocateDepartment method in adminserviceimpl...");
+        // Delegate the employee allocation to the repository
+        adminRepo.allocateEmployee(complaintId, employeeId, status);
+
+    }
+
 }
 
 

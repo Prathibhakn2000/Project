@@ -137,6 +137,18 @@ public class RaiseComplaintDTO {
         this.status = status;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private EmployeeDTO employeeId;
+
+    public EmployeeDTO getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(EmployeeDTO employeeId) {
+        this.employeeId = employeeId;
+    }
+
     @Override
     public String toString() {
         return "RaiseComplaintDTO{" +
@@ -151,6 +163,7 @@ public class RaiseComplaintDTO {
                 ", signUpDTO=" + signUpDTO +
                 ", departmentDTO=" + departmentDTO +
                 ", status='" + status + '\'' +
+                ", employeeId=" + employeeId +
                 '}';
     }
 }

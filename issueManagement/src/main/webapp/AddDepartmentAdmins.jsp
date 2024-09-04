@@ -46,7 +46,8 @@
       <h3><b><center>Department Admin</center></b></h3>
       <form action="department-admins" method="post">
 
-      <center><strong><span style="color:green">${msg}</span></strong></center>
+      <center><strong><span style="color:green">${signInsuccess}</span></strong></center>
+       <center><strong><span style="color:green">${signInFailed}</span></strong></center>
 
       <div class="mb-3">
         <span id="fullName"></span><br>

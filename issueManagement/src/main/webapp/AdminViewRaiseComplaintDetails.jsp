@@ -114,7 +114,6 @@
                                       <th>UserId</th>
                                        <th>Status</th>
                                       <th>Allocate Department</th>
-
                                       <th>Submit</th>
 
 
@@ -158,13 +157,14 @@
                                               </c:forEach>
                                           </select>
                                </div>
-
                                </td>
                                <td>
                                 <button type="submit" class="btn btn-primary mt-2">submit</button>
                                 </td>
                                  </form>
+                               <td>
                            </tr>
+                               </td>
                        </c:forEach>
 
                                   </tbody>

@@ -1,9 +1,6 @@
 package com.xworkz.issuemanagement.model.service;
 
-import com.xworkz.issuemanagement.dto.DepartmentAdminDTO;
-import com.xworkz.issuemanagement.dto.DepartmentDTO;
-import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
-import com.xworkz.issuemanagement.dto.SignUpDTO;
+import com.xworkz.issuemanagement.dto.*;
 
 import java.util.List;
 
@@ -71,6 +68,12 @@ public interface AdminService {
     //List<DepartmentAdminDto> findByUserDepartmentAdminId();
 
     List<RaiseComplaintDTO> findByUSerComplaintType(String complaintType);
+
+
+    //getAllemployee
+    List<EmployeeDTO> getAllEmployees();
+
+    void allocateEmployee(int complaintId, int employeeId,String status);
 
 
 

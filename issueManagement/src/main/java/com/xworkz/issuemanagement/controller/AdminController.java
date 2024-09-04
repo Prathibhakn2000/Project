@@ -172,28 +172,58 @@ public class AdminController {
 
     }
 
-    @PostMapping("/department-admins")
-    public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model) {
+//    @PostMapping("/department-admins")
+//    public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model) {
+//
+//        DepartmentDTO departmentDTO=adminService.searchByDeptName(departmentAdminDTO.getDepartmentType());
+//        departmentAdminDTO.setDeptId(departmentDTO);
+//
+//        System.out.println("Running signInDepartmentAdmin method in AdminController...");
+//        boolean deptAdminDto = adminService.saveDepartmentAdmin(departmentAdminDTO);
+//        if (deptAdminDto) {
+//            model.addAttribute("signInsuccess", "Successfully logined" + departmentAdminDTO);
+//            return "AddDepartmentAdmins";
+//        }
+//        model.addAttribute("signInFailed", "login failed" + departmentAdminDTO);
+//        return "redirect:/get-all-departments";
+//    }
+//
+//    @GetMapping("/get-all-departments")
+//    public String getform(Model model){
+//        List<DepartmentDTO> departments = adminService.getAllDepartments();
+//        model.addAttribute("departments",departments);
+//        return "AddDepartmentAdmins";
+//    }
 
-        DepartmentDTO departmentDTO=adminService.searchByDeptName(departmentAdminDTO.getDepartmentType());
+
+
+    @PostMapping("/department-admins")
+    public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO,Model model, RedirectAttributes redirectAttributes) {
+
+        DepartmentDTO departmentDTO = adminService.searchByDeptName(departmentAdminDTO.getDepartmentType());
         departmentAdminDTO.setDeptId(departmentDTO);
 
         System.out.println("Running signInDepartmentAdmin method in AdminController...");
         boolean deptAdminDto = adminService.saveDepartmentAdmin(departmentAdminDTO);
+
+        List<DepartmentDTO> departments = adminService.getAllDepartments(); // Load departments
+      model.addAttribute("departments", departments); // Add departments to the model
+
         if (deptAdminDto) {
-            model.addAttribute("signInsuccess", "Successfully logined" + departmentAdminDTO);
-            return "AddDepartmentAdmins";
+           redirectAttributes.addFlashAttribute("signInsuccess", "Successfully logined ");
+            return "redirect:/get-all-departments";
         }
-        model.addAttribute("signInFailed", "login failed" + departmentAdminDTO);
-        return "AddDepartmentAdmins";
+        redirectAttributes.addFlashAttribute("signInFailed", "Login failed ");
+        return "redirect:/get-all-departments";  // Stay on the same page instead of redirecting
     }
 
     @GetMapping("/get-all-departments")
-    public String getform(Model model){
+    public String getform(Model model) {
         List<DepartmentDTO> departments = adminService.getAllDepartments();
-        model.addAttribute("departments",departments);
+        model.addAttribute("departments", departments);
         return "AddDepartmentAdmins";
     }
+
 
     @PostMapping("/admin-sign-in")
     public String signInDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model,HttpSession httpSession,@RequestParam String email,RedirectAttributes redirectAttributes) {
@@ -287,11 +317,96 @@ public class AdminController {
         // Assuming findByUSerComplaintType requires a string like department name
         String departmenttype = departmentAdminDto.getDepartmentType(); // Use the correct method to retrieve the string
         List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmenttype);
-
         model.addAttribute("viewDepartmentComplaints", viewDepartmentComplaints);
+
+        //indroen employee name for dept admin allocate a employee
+        List<EmployeeDTO> employees=adminService.getAllEmployees();
+        model.addAttribute("employees", employees);
+
+
 
         return "DepartmentAdminViewRaiseComplaints";
     }
+
+
+    //allocate employee in complaint view
+
+
+    @PostMapping("/allocate-employee")
+    public String allocateEmployee(
+            @RequestParam("complaintId") int complaintId,
+            @RequestParam("employeeId") int employeeId,
+            @RequestParam("status") String status,
+            Model model
+    ) {
+        try {
+            System.out.println("Running allocate department");
+
+            // Call the service method to allocate department
+            adminService.allocateEmployee(complaintId, employeeId, status);
+            System.out.println("complaintId" +  complaintId);
+            System.out.println("employeeId" +  employeeId);
+            model.addAttribute("successMessage", "Employee allocated successfully!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Failed to allocate Employee. Please try again.");
+            e.printStackTrace();
+        }
+        return "redirect:/view-complaints";
+
+    }
+
+//    @GetMapping("/view-complaints")  //action in href
+//    public String viewcomplaints(Model model,HttpServletRequest request) {
+//        HttpSession session = request.getSession();
+//        DepartmentAdminDTO departmentAdminDto = (DepartmentAdminDTO) session.getAttribute("deptadmin");
+//
+//        // Assuming findByUSerComplaintType requires a string like department name
+//        String departmenttype = departmentAdminDto.getDepartmentType(); // Use the correct method to retrieve the string
+//        List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmenttype);
+//        model.addAttribute("viewDepartmentComplaints", viewDepartmentComplaints);
+//
+//        //indroen employee name for dept admin allocate a employee
+//        List<EmployeeDTO> employees = adminService.getAllEmployees();
+//        model.addAttribute("employees", employees);
+//
+//
+//        return "DepartmentAdminViewRaiseComplaints";
+//    }
+
+    @GetMapping("/view-complaints")
+    public String viewcomplaints(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        DepartmentAdminDTO departmentAdminDto = (DepartmentAdminDTO) session.getAttribute("deptadmin");
+
+        if (departmentAdminDto == null) {
+            model.addAttribute("errorMessage", "Department Admin not found in session.");
+            return "errorPage"; // Redirect to an error page or handle the error gracefully
+        }
+
+        String departmenttype = departmentAdminDto.getDepartmentType();
+
+        if (departmenttype == null) {
+            model.addAttribute("errorMessage", "Department type is null.");
+            return "errorPage"; // Handle the case where the department type is null
+        }
+
+        List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmenttype);
+        if (viewDepartmentComplaints != null) {
+            model.addAttribute("viewDepartmentComplaints", viewDepartmentComplaints);
+        } else {
+            model.addAttribute("errorMessage", "No complaints found for the given department.");
+        }
+
+        List<EmployeeDTO> employees = adminService.getAllEmployees();
+        if (employees != null) {
+            model.addAttribute("employees", employees);
+        } else {
+            model.addAttribute("errorMessage", "No employees found.");
+        }
+
+        return "DepartmentAdminViewRaiseComplaints";
+    }
+
 
 
 }
