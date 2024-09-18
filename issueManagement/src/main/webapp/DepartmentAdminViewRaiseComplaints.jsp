@@ -1,12 +1,10 @@
-
-
 <%@ page isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="ISO-8859-1">
-    <title>Spring Project</title>
+    <title>Department Admin - Allocate Employee</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
@@ -19,7 +17,6 @@
             width: 90%;  /* Increase width */
             padding: 30px;  /* Increase padding */
         }
-
         .input-group .input-group-text {
             border-right: 0;  /* Remove the right border of the input-group-text */
         }
@@ -34,9 +31,9 @@
 <nav class="navbar navbar-light bg-info">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
+           <!-- <a class="navbar-brand" href="#">
                 <img src="https://x-workz.in/static/media/Logo.cf195593dc1b3f921369.png" alt="xworkz" width="140" height="70">
-            </a>
+            </a>-->
             <a class="navbar-brand" href="index.jsp"><b>Home</b></a>
             <a class="navbar-brand" href="Profile.jsp"><b>Profile</b></a>
         </div>
@@ -49,16 +46,8 @@
                 <li><a class="dropdown-item" href="view-user-details"><strong>ViewUserDetails</strong></a></li>
             </ul>
         </div>
-
     </div>
 </nav>
-
-<!-- Display Success Message -->
-<c:if test="${not empty successMessage}">
-    <div class="alert alert-success" role="alert">
-        ${successMessage}
-    </div>
-</c:if>
 
 <!-- View of Raised Complaints -->
 <div class="d-flex justify-content-center mt-3 mb-2 align-items-center vh-80">
@@ -78,12 +67,12 @@
                         <th>Address</th>
                         <th>Description</th>
                         <th>UserId</th>
-                        <th>Status</th>
                         <th>Allocate Employee</th>
                         <th>Submit</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Loop to display complaints -->
                     <c:forEach var="deptAdminViewComplaints" items="${viewDepartmentComplaints}" varStatus="status">
                         <tr>
                             <td>${status.index + 1}</td>
@@ -97,26 +86,20 @@
                             <td>${deptAdminViewComplaints.description}</td>
                             <td>${deptAdminViewComplaints.signUpDTO.id}</td>
 
+                            <!-- Form to allocate employee -->
                             <form action="allocate-employee" method="post">
-                                <td>
-                                    <input type="hidden" name="complaintId" value="${deptAdminViewComplaints.complaintId}" id="complaintId">
+                                <!-- Hidden field for complaintId -->
+                                <input type="hidden" name="complaintId" value="${deptAdminViewComplaints.complaintId}"/>
 
-                                    <select class="form-select" name="status" id="status">
-                                        <option selected>${complaint.status}</option>
-                                        <option value="Completed">Completed</option>
-                                        <option value="In Progress">In Progress</option>
-                                        <option value="Not Completed">Not Completed</option>
-                                    </select>
-                                </td>
+                                <!-- Add hidden input for status -->
+                                <input type="hidden" name="status" value="Open" />
 
                                 <td>
                                     <div style="width:110px;">
                                         <select class="form-select" name="employeeId" id="employeeId">
+                                            <!-- Loop to display employees -->
                                             <c:forEach var="employee" items="${employees}">
-                                                <option value="${employee.employeeId}"
-                                                    <c:if test="${employee.employeeId == employee.employeeId}">
-                                                        selected
-                                                    </c:if>>
+                                                <option value="${employee.employeeId}">
                                                     ${employee.empFullName}
                                                 </option>
                                             </c:forEach>
@@ -125,16 +108,15 @@
                                 </td>
 
                                 <td>
-                                    <button type="submit" class="btn btn-primary mt-2"
-                                        <c:if test="${not empty deptAdminViewComplaints.employeeId}">
-                                            disabled
-                                        </c:if>>
+                                    <button type="submit" class="btn btn-primary mt-2">
                                         Submit
                                     </button>
                                 </td>
                             </form>
+
                         </tr>
                     </c:forEach>
+
                 </tbody>
             </table>
         </div>
@@ -143,7 +125,3 @@
 
 </body>
 </html>
-
-
-
-

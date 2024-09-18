@@ -3,6 +3,7 @@ package com.xworkz.issuemanagement.model.service;
 import com.xworkz.issuemanagement.dto.*;
 import com.xworkz.issuemanagement.emailSending.MailSending;
 import com.xworkz.issuemanagement.model.repository.AdminRepo;
+import com.xworkz.issuemanagement.model.repository.EmployeeRepo;
 import com.xworkz.issuemanagement.util.PassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,7 @@ public class AdminServiceImpl implements  AdminService {
     @Autowired
     //private  EmailService emailService;
     private MailSending mailSending;
+
 
 
     @Override
@@ -351,19 +353,27 @@ public class AdminServiceImpl implements  AdminService {
     }
 
     @Override
-    public List<EmployeeDTO> getAllEmployees() {
-        return adminRepo.getAllEmployees();
+    public List<EmployeeDTO> getAllEmployees(String departmentType) {
+        return adminRepo.getAllEmployees(departmentType);
     }
 
     @Override
-    public void allocateEmployee(int complaintId, int employeeId, String status) {
+    public void allocateEmployee(int complaintId, int employeeId) {
         System.out.println("Running  allocateDepartment method in adminserviceimpl...");
         // Delegate the employee allocation to the repository
-        adminRepo.allocateEmployee(complaintId, employeeId, status);
+        adminRepo.allocateEmployee(complaintId, employeeId);
 
     }
 
+
+
+
+
 }
+
+
+
+
 
 
 

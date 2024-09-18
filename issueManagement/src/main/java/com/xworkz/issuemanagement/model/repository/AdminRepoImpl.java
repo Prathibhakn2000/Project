@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class AdminRepoImpl implements AdminRepo{
+public class AdminRepoImpl implements AdminRepo {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
@@ -56,18 +56,12 @@ public class AdminRepoImpl implements AdminRepo{
             String query = "SELECT d FROM  SignUpDTO d";
             Query query1 = entityManager.createQuery(query);
             List<SignUpDTO> data = query1.getResultList();
-            System.out.println("Data:"+data);
+            System.out.println("Data:" + data);
 
             return data;
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        finally
-        {
+        } finally {
             entityManager.close();
             System.out.println("Connection closed");
         }
@@ -85,16 +79,13 @@ public class AdminRepoImpl implements AdminRepo{
         try {
             String query = "SELECT c FROM RaiseComplaintDTO c ORDER BY c.complaintId DESC";
             Query query1 = entityManager.createQuery(query);
-            List<RaiseComplaintDTO> data=  query1.getResultList();
-            System.out.println("RaiseComplaintData:"+data);
+            List<RaiseComplaintDTO> data = query1.getResultList();
+            System.out.println("RaiseComplaintData:" + data);
 
             return data;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             entityManager.close();
             System.out.println("connection closed");
         }
@@ -113,8 +104,8 @@ public class AdminRepoImpl implements AdminRepo{
         try {
             String query = "SELECT r FROM RaiseComplaintDTO r WHERE r.city=:City or r.complaintType=:ComplaintType ORDER BY r.complaintId DESC";
             Query query1 = entityManager.createQuery(query);
-            query1.setParameter("City",city);
-            query1.setParameter("ComplaintType",complaintType);
+            query1.setParameter("City", city);
+            query1.setParameter("ComplaintType", complaintType);
 
 
             List<RaiseComplaintDTO> raiseData = query1.getResultList();
@@ -143,20 +134,18 @@ public class AdminRepoImpl implements AdminRepo{
         try {
             String query = "SELECT r FROM RaiseComplaintDTO r WHERE r.city=:City and r.complaintType=:ComplaintType ORDER BY r.complaintId DESC";
             Query query1 = entityManager.createQuery(query);
-            query1.setParameter("City",city);
-            query1.setParameter("ComplaintType",complaintType);
+            query1.setParameter("City", city);
+            query1.setParameter("ComplaintType", complaintType);
 
             List<RaiseComplaintDTO> raiseData = query1.getResultList();
             System.out.println("City:" + raiseData);
             entityTransaction.commit();
 
             return raiseData;
-        } catch (PersistenceException persistenceException)
-        {
+        } catch (PersistenceException persistenceException) {
             persistenceException.printStackTrace();
             entityTransaction.rollback();
-        } finally
-        {
+        } finally {
             System.out.println("Connection closed");
             entityManager.close();
         }
@@ -208,7 +197,7 @@ public class AdminRepoImpl implements AdminRepo{
     }
 
     @Override
-    public void allocateDepartment(int complaintId, int deptId,String status) {
+    public void allocateDepartment(int complaintId, int deptId, String status) {
         System.out.println("Running allocateDepartment method in AdminRepoImpl...");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -253,22 +242,22 @@ public class AdminRepoImpl implements AdminRepo{
     @Override
     public boolean saveDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO) {
         System.out.println("Running saveDepartmentAdmin in AdminRepoImpl...");
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            EntityTransaction entityTransaction = entityManager.getTransaction();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
 
-            try {
-                entityTransaction.begin();
-                entityManager.persist(departmentAdminDTO); // Use persist for new entities
-                entityTransaction.commit();
-                return true;
-            } catch (PersistenceException e) {
-                entityTransaction.rollback();
-                e.printStackTrace();
-                return false;
-            } finally {
-                entityManager.close();
-            }
+        try {
+            entityTransaction.begin();
+            entityManager.persist(departmentAdminDTO); // Use persist for new entities
+            entityTransaction.commit();
+            return true;
+        } catch (PersistenceException e) {
+            entityTransaction.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            entityManager.close();
         }
+    }
 
     @Override
     public DepartmentAdminDTO findByEmail(String email) {
@@ -298,15 +287,15 @@ public class AdminRepoImpl implements AdminRepo{
 
 
     @Override
-    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password,String departmentType) {
+    public DepartmentAdminDTO findByDepartmentAdminEmailAndPassword(String email, String password, String departmentType) {
 
         System.out.println("Running findByDepartmentAdminEmailAndPassword method...");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            Query query = entityManager.createQuery("Select s from DepartmentAdminDTO s where s.email = :email and s.password = :password and s.departmentType =: departmentType" );
+            Query query = entityManager.createQuery("Select s from DepartmentAdminDTO s where s.email = :email and s.password = :password and s.departmentType =: departmentType");
             query.setParameter("email", email);
             query.setParameter("password", password);
-            query.setParameter("departmentType",departmentType);
+            query.setParameter("departmentType", departmentType);
             return (DepartmentAdminDTO) query.getSingleResult();
         } catch (NoResultException e) {
             // Handle case where no result is found
@@ -344,9 +333,9 @@ public class AdminRepoImpl implements AdminRepo{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             String query = "SELECT d FROM DepartmentDTO d WHERE d.departmentType = :departmentType";
-            Query result=entityManager.createQuery(query);
-            result.setParameter("departmentType",departmentType);
-            DepartmentDTO departmentDTO=(DepartmentDTO) result.getSingleResult();
+            Query result = entityManager.createQuery(query);
+            result.setParameter("departmentType", departmentType);
+            DepartmentDTO departmentDTO = (DepartmentDTO) result.getSingleResult();
             return departmentDTO;
 
         } catch (Exception e) {
@@ -386,7 +375,7 @@ public class AdminRepoImpl implements AdminRepo{
             String query = "SELECT r FROM RaiseComplaintDTO r where r.complaintType=:complaintType";
             Query query1 = entityManager.createQuery(query);
             query1.setParameter("complaintType", complaintType);
-            List<RaiseComplaintDTO> data =query1.getResultList();
+            List<RaiseComplaintDTO> data = query1.getResultList();
             System.out.println("DTO: " + data);
             System.out.println("Data size: " + data.size()); // Print the number of records fetched
             return data;
@@ -399,12 +388,15 @@ public class AdminRepoImpl implements AdminRepo{
     }
 
     @Override
-    public List<EmployeeDTO> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees(String departmentType) {
         System.out.println("Running getAllEmployees method in admin repo implementation...");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         try {
-            String query = "SELECT e FROM EmployeeDTO e";
+            // Query to fetch employees by department type
+            String query = "SELECT e FROM EmployeeDTO e WHERE e.departmentType = :departmentType";
             Query query1 = entityManager.createQuery(query);
+            query1.setParameter("departmentType", departmentType);  // Bind departmentType parameter
             List<EmployeeDTO> resultList = query1.getResultList();
             System.out.println("ResultList size: " + resultList.size());
             return resultList;
@@ -417,8 +409,9 @@ public class AdminRepoImpl implements AdminRepo{
     }
 
 
+
     @Override
-    public void allocateEmployee(int complaintId, int employeeId, String status) {
+    public void allocateEmployee(int complaintId, int employeeId) {
 
         System.out.println("Running allocateEmployee method in AdminRepoImpl...");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -438,8 +431,8 @@ public class AdminRepoImpl implements AdminRepo{
             if (employee == null) {
                 throw new RuntimeException("Department not found for ID: " + employeeId);
             }
-            employee.setStatus(status);
-            System.out.println("Found department: " + employee);
+//            employee.setStatus(status);
+//            System.out.println("Found department: " + employee);
 
             // Set the employee for the complaint
             complaint.setEmployeeId(employee);
@@ -463,15 +456,7 @@ public class AdminRepoImpl implements AdminRepo{
     }
 
 
+
 }
-
-
-
-
-
-
-
-
-
 
 

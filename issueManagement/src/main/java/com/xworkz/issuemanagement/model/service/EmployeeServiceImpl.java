@@ -5,12 +5,13 @@ import com.xworkz.issuemanagement.model.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
+ @Autowired
     EmployeeRepo employeeRepo;
     @Override
     public boolean employeeDetailsValidateAndSave(EmployeeDTO employeeDTO) {
@@ -31,4 +32,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     }
+
+
+
+//    @Override
+//    public List<EmployeeDTO> fetchEmployeeNamesByDepartment(String departmentType)
+//    {
+//        System.out.println("fetchEmployeeName method running in EmployeeServiceImpl..");
+//
+//        List<EmployeeDTO> fetchEmployeeName = employeeRepo.fetchEmployeeNamesByDepartment(departmentType);
+//
+//        if (fetchEmployeeName != null) {
+//            System.out.println("EmployeeName fetched successfully.. ");
+//            return fetchEmployeeName;
+//        } else {
+//            System.out.println("EmployeeName not fetched successfully..");
+//        }
+//
+//        return fetchEmployeeName;
+//
+//    }
 }
