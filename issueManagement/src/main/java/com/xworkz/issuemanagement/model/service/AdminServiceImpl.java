@@ -353,8 +353,8 @@ public class AdminServiceImpl implements  AdminService {
     }
 
     @Override
-    public List<EmployeeDTO> getAllEmployees(String departmentType) {
-        return adminRepo.getAllEmployees(departmentType);
+    public List<EmployeeDTO> getParticularEmployees(String departmentType) {
+        return adminRepo.getParticularEmployees(departmentType);
     }
 
     @Override

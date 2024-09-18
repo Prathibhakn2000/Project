@@ -309,33 +309,32 @@ public class AdminController {
         return "DepartmentAdminResetPassword";
     }
 
-    // dept admin view particular complaint by particular deptType
-    @GetMapping("deptAdmin-view-raise-complaints")
-    public String adminViewUserComplaintDetails(RaiseComplaintDTO raiseComplaintDTO, Model model, HttpServletRequest request) {
-        System.out.println("adminViewUserComplaintDetails method in AdminController..");
+
+
+    //department admin view a particular complaints details
+    @GetMapping("/deptAdmin-view-particular-raise-complaints")  // action in href
+    public String viewComplaints(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         DepartmentAdminDTO departmentAdminDto = (DepartmentAdminDTO) session.getAttribute("deptadmin");
 
         // Assuming findByUSerComplaintType requires a string like department name
-        String departmenttype = departmentAdminDto.getDepartmentType(); // Use the correct method to retrieve the string
-        List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmenttype);
+        String departmentType = departmentAdminDto.getDepartmentType();  // Correct spelling of departmentType
+        List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmentType);
         model.addAttribute("viewDepartmentComplaints", viewDepartmentComplaints);
 
-        //in drop down employee name for dept admin allocate a employee
-        List<EmployeeDTO> employees = adminService.getAllEmployees(departmenttype);
+        // Fetch only employees of the specific department
+        List<EmployeeDTO> employees = adminService.getParticularEmployees(departmentType);  // Correct spelling of departmentType
         model.addAttribute("employees", employees);
-
 
         return "DepartmentAdminViewRaiseComplaints";
     }
-
 
     //allocate employee in complaint view
     @PostMapping("/allocate-employee")
     public String allocateEmployee(
             @RequestParam("complaintId") int complaintId,
             @RequestParam("employeeId") int employeeId,
-            @RequestParam("status") String status,
+            //@RequestParam("status") String status,
             Model model
     ) {
         try {
@@ -350,28 +349,12 @@ public class AdminController {
             model.addAttribute("errorMessage", "Failed to allocate Employee. Please try again.");
             e.printStackTrace();
         }
-        return "redirect:/view-complaints";
+        return "redirect:/deptAdmin-view-particular-raise-complaints";
 
     }
 
 
-   //department admin view a perticular comaplaints details
-    @GetMapping("/view-complaints")  // action in href
-    public String viewComplaints(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        DepartmentAdminDTO departmentAdminDto = (DepartmentAdminDTO) session.getAttribute("deptadmin");
 
-        // Assuming findByUSerComplaintType requires a string like department name
-        String departmentType = departmentAdminDto.getDepartmentType();  // Correct spelling of departmentType
-        List<RaiseComplaintDTO> viewDepartmentComplaints = adminService.findByUSerComplaintType(departmentType);
-        model.addAttribute("viewDepartmentComplaints", viewDepartmentComplaints);
-
-        // Fetch only employees of the specific department
-        List<EmployeeDTO> employees = adminService.getAllEmployees(departmentType);  // Correct spelling of departmentType
-        model.addAttribute("employees", employees);
-
-        return "DepartmentAdminViewRaiseComplaints";
-    }
 
 }
 

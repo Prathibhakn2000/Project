@@ -45,7 +45,7 @@
         <br>
 
         <li><a class="dropdown-item" href="DepartmentAdminResetPassword.jsp"><strong>Reset Password</strong></a></li>
-        <li><a class="dropdown-item" href="deptAdmin-view-raise-complaints"><strong>DeptAdminViewComplaints</strong></a></li>
+        <li><a class="dropdown-item" href="deptAdmin-view-particular-raise-complaints"><strong>DeptAdminViewComplaints</strong></a></li>
          <li><a class="dropdown-item" href="view-department-in-employee"><strong>Employee</strong></a></li>
 
       </ul>

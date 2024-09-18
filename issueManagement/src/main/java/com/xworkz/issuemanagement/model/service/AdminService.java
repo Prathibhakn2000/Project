@@ -71,7 +71,7 @@ public interface AdminService {
 
 
     //getAllemployee
-    List<EmployeeDTO> getAllEmployees(String departmentType);
+    List<EmployeeDTO> getParticularEmployees(String departmentType);
 
     void allocateEmployee(int complaintId, int employeeId);
 

@@ -388,7 +388,7 @@ public class AdminRepoImpl implements AdminRepo {
     }
 
     @Override
-    public List<EmployeeDTO> getAllEmployees(String departmentType) {
+    public List<EmployeeDTO> getParticularEmployees(String departmentType) {
         System.out.println("Running getAllEmployees method in admin repo implementation...");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 

@@ -52,7 +52,7 @@ public interface AdminRepo {
 
 
     //getAllEmployee
-    List<EmployeeDTO> getAllEmployees(String departmentType);
+    List<EmployeeDTO> getParticularEmployees(String departmentType);
 
     //allocate employee
     void allocateEmployee(int complaintId, int employeeId);
