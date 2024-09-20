@@ -35,6 +35,9 @@ private DepartmentDTO deptId;
 @Column(name = "employee_status" )
 private String status;
 
+@Column(name = "employee_otp" )
+private Long otp;
+
    public int getEmployeeId() {
         return employeeId;
     }
@@ -107,6 +110,14 @@ private String status;
         this.status = status;
     }
 
+    public Long getOtp() {
+        return otp;
+    }
+
+    public void setOtp(Long otp) {
+        this.otp = otp;
+    }
+
     @Override
     public String toString() {
         return "EmployeeDTO{" +
@@ -119,6 +130,7 @@ private String status;
                 ", address='" + address + '\'' +
                 ", deptId=" + deptId +
                 ", status='" + status + '\'' +
+                ", otp=" + otp +
                 '}';
     }
 }

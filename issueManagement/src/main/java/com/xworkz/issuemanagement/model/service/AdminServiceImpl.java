@@ -1,6 +1,7 @@
 package com.xworkz.issuemanagement.model.service;
 
 import com.xworkz.issuemanagement.dto.*;
+import com.xworkz.issuemanagement.emailSending.DepartmentAdminMailSending;
 import com.xworkz.issuemanagement.emailSending.MailSending;
 import com.xworkz.issuemanagement.model.repository.AdminRepo;
 import com.xworkz.issuemanagement.model.repository.EmployeeRepo;
@@ -29,6 +30,9 @@ public class AdminServiceImpl implements  AdminService {
     @Autowired
     //private  EmailService emailService;
     private MailSending mailSending;
+
+    @Autowired
+    private DepartmentAdminMailSending departmentAdminMailSending;
 
 
 
@@ -148,7 +152,7 @@ public class AdminServiceImpl implements  AdminService {
             // mailSending.sendDepartmentPassword(departmentAdminDTO); // Send plain password
             //password send to email
             departmentAdminDTO.setPassword(departmentadminpassword);
-            mailSending.sendDeptAdminPassword(departmentAdminDTO);
+            departmentAdminMailSending.sendDeptAdminPassword(departmentAdminDTO);
             return true;
         }
         System.out.println("Department Admin details not saved ......");
@@ -235,7 +239,7 @@ public class AdminServiceImpl implements  AdminService {
             adminRepo.updateDeptAdminDetails(departmentAdminDTO);
             departmentAdminDTO.setPassword(newPassword);
             //sendPassword(departmentAdminDTO);
-            mailSending.adminSendForgotPassword(departmentAdminDTO);
+            departmentAdminMailSending.adminSendForgotPassword(departmentAdminDTO);
 
             //Reset failed attempts
             this.resetFailedAttempts(email);
@@ -306,7 +310,7 @@ public class AdminServiceImpl implements  AdminService {
                     System.out.println("mailSending is null");
                     return false;
                 }
-                mailSending.adminSendresetPassword(departmentAdminDTO, newPassword);
+                departmentAdminMailSending.adminSendresetPassword(departmentAdminDTO, newPassword);
                 return true; // Password successfully updated and email sent
             } catch (MailException e) {
                 e.printStackTrace();

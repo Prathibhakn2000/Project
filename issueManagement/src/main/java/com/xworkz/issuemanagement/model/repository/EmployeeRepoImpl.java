@@ -15,6 +15,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
     private EntityManagerFactory entityManagerFactory;
 
 
+
     @Override
     public boolean saveEmployeeDetails(EmployeeDTO employeeDTO) {
         System.out.println("Running saveEmployeeDetails method");
@@ -28,7 +29,13 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
         try {
             tx.begin();
-            manager.persist(employeeDTO);
+            if (employeeDTO.getEmployeeId() > 0) {
+                // If employee ID is present, update existing record
+                manager.merge(employeeDTO);
+            } else {
+                // Otherwise, persist new record
+                manager.persist(employeeDTO);
+            }
             tx.commit();
             System.out.println("Employee saved with status: " + employeeDTO.getStatus());
         } catch (PersistenceException persistenceException) {
@@ -41,31 +48,51 @@ public class EmployeeRepoImpl implements EmployeeRepo {
             manager.close();
         }
         return true;
-
     }
 
 
 
-//    @Override
-//    public List<EmployeeDTO> fetchEmployeeNamesByDepartment(String departmentType) {
-//        System.out.println("fetchEmployeeName method running in EmployeeRepoImpl...");
-//
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//
-//
-////      String query = "SELECT e.employeeName FROM EmployeeDTO e WHERE e.departmentName = :departmentName";
-//        String query = "SELECT e FROM EmployeeDTO e WHERE e.departmentType = :departmentType";
-//
-//
-//        //  Query query1 = entityManager.createQuery("SELECT e FROM EmployeeDTO e where e.departmentName=:regDepartmentName AND e.status = 'ACTIVE'");
-//
-//        Query query1 = entityManager.createQuery(query);
-//        query1.setParameter("departmentType", departmentType);
-//
-//        List<EmployeeDTO> fetchEmployeeNames = query1.getResultList();
-//        System.out.println("ListOfEmployeeNames: {}" + fetchEmployeeNames);
-//
-//        return fetchEmployeeNames;
-//    }
+    //to check whether email exists or not in database
+    @Override
+    public EmployeeDTO findByEmail(String email) {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        try {
+            //System.out.println("Existing email:" +emailId);
+            System.out.println("Existing email : "+ email);
+            entityTransaction.begin();
+            String query = "SELECT e FROM EmployeeDTO e WHERE e.email =:email";
+
+            Query query1 = entityManager.createQuery(query);
+            query1.setParameter("email", email);
+            EmployeeDTO employeeDTO = (EmployeeDTO) query1.getSingleResult();
+
+            System.out.println("EmployeeDTO data :"+ employeeDTO);
+            entityTransaction.commit();
+
+            return employeeDTO;
+
+
+        } catch (NoResultException exception) {
+            System.out.println("No entity found for email: "+ email); // Log a warning instead of printing the stack trace
+
+        } catch (PersistenceException persistenceException) {
+            System.out.println("PersistenceException occurred while finding employee by email: " + email + persistenceException);
+            entityTransaction.rollback(); // Rollback transaction in case of persistence exception
+
+        } finally {
+            System.out.println("findByEmail method closed");
+            if (entityTransaction.isActive()) {
+                entityTransaction.rollback(); // Ensure transaction is rolled back if still active
+            }
+            entityManager.close();
+        }
+
+        return null;
+    }
+
+
 }
 

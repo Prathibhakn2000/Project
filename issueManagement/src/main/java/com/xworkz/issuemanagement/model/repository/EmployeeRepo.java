@@ -9,7 +9,7 @@ public interface EmployeeRepo {
 
     boolean saveEmployeeDetails(EmployeeDTO employeeDTO);
 
-    //List<EmployeeDTO> fetchEmployeeNamesByDepartment(String departmentType);
+    EmployeeDTO findByEmail(String email);
 
 
 }

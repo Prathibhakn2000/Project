@@ -104,7 +104,13 @@
         </div>
       </div>
 
-      <center><input type="submit" class="btn btn-primary" id="submit" value="submit"></i></center>
+      <div><center><input type="submit" class="btn btn-primary" id="submit" value="submit"></i></center></div>
+
+
+      <div class="mb-3">
+        <center>  <p> Have already have account?  <a href="employeeLogin" class="link-primary"><strong>Please Login To get OTP to click here?</strong></a></p></center>
+            </div>
+
       </form>
     </div>
   </div>

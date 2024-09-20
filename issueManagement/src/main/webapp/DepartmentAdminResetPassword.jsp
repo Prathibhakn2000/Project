@@ -95,7 +95,7 @@
         </div>
 
         <div class="mb-3">
-          <center><a href="SignIn.jsp" class="link-primary"><strong>Sign In Here?</strong></a></center>
+          <center><a href="DepartmentAdminSignIn.jsp" class="link-primary"><strong>Sign In Here?</strong></a></center>
         </div>
       </form>
     </div>

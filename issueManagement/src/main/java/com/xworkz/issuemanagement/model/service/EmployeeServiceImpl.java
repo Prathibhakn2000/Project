@@ -14,7 +14,7 @@ public class EmployeeServiceImpl implements EmployeeService {
  @Autowired
     EmployeeRepo employeeRepo;
     @Override
-    public boolean employeeDetailsValidateAndSave(EmployeeDTO employeeDTO) {
+    public boolean validateAndSaveEmployeeDetails(EmployeeDTO employeeDTO) {
         System.out.println("Running employeeDetailsValidateAndSave method");
 
 
@@ -33,23 +33,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    //to check whether emailId exists or not in database
+    @Override
+    public EmployeeDTO findByEmail(String email) {
+
+        System.out.println("findByEmail method running EmployeeServiceImpl..");
 
 
-//    @Override
-//    public List<EmployeeDTO> fetchEmployeeNamesByDepartment(String departmentType)
-//    {
-//        System.out.println("fetchEmployeeName method running in EmployeeServiceImpl..");
-//
-//        List<EmployeeDTO> fetchEmployeeName = employeeRepo.fetchEmployeeNamesByDepartment(departmentType);
-//
-//        if (fetchEmployeeName != null) {
-//            System.out.println("EmployeeName fetched successfully.. ");
-//            return fetchEmployeeName;
-//        } else {
-//            System.out.println("EmployeeName not fetched successfully..");
-//        }
-//
-//        return fetchEmployeeName;
-//
-//    }
+        System.out.println ("Your EmailId : "+ "email");
+        EmployeeDTO employeeDTO = employeeRepo.findByEmail(email);
+
+        if (employeeDTO != null) {
+            System.out.println("EmailId exists in database");
+            return employeeDTO;
+        } else {
+            System.out.println("EmailId not exists in database");
+        }
+
+
+        return null;
+    }
+
+
 }

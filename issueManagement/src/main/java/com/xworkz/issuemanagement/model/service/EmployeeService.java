@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    boolean employeeDetailsValidateAndSave(EmployeeDTO employeeDTO);
+    boolean validateAndSaveEmployeeDetails(EmployeeDTO employeeDTO);
 
-    //List<EmployeeDTO> fetchEmployeeNamesByDepartment(String departmentType);
-
+    EmployeeDTO findByEmail(String email);
 }
