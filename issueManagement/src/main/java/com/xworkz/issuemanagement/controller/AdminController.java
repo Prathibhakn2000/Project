@@ -99,7 +99,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("search-complaint")
+        @PostMapping("search-complaint")
     public String searchUserComplaintDetails(RaiseComplaintDTO raiseComplaintDTO, Model model) {
         System.out.println("viewUserDetails method in AdminController..");
 
@@ -153,6 +153,31 @@ public class AdminController {
     }
 
     //allocate departs in complaint view
+//    @PostMapping("/allocate-department")
+//    public String allocateDepartment(
+//            @RequestParam("complaintId") int complaintId,
+//            @RequestParam("deptId") int deptId,
+//            @RequestParam("status") String status,
+//            Model model
+//    ) {
+//        try {
+//            System.out.println("Running allocate department");
+//
+//            // Call the service method to allocate department
+//            adminService.allocateDepartment(complaintId, deptId, status);
+//            System.out.println("complaintId" + complaintId);
+//            System.out.println("deptId" + deptId);
+//            model.addAttribute("successMessage", "Department allocated successfully!");
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Failed to allocate department. Please try again.");
+//            e.printStackTrace();
+//        }
+//        return "AdminViewRaiseComplaintDetails";
+//
+//    }
+
+
+
     @PostMapping("/allocate-department")
     public String allocateDepartment(
             @RequestParam("complaintId") int complaintId,
@@ -165,41 +190,30 @@ public class AdminController {
 
             // Call the service method to allocate department
             adminService.allocateDepartment(complaintId, deptId, status);
-            System.out.println("complaintId" + complaintId);
-            System.out.println("deptId" + deptId);
             model.addAttribute("successMessage", "Department allocated successfully!");
+
+            // Reload complaint data and department list to display again in the table
+            RaiseComplaintDTO raiseComplaintDTO = null;
+            List<RaiseComplaintDTO> viewData = adminService.findById(raiseComplaintDTO); // Load all complaints again
+            List<DepartmentDTO> departments = adminService.getAllDepartments(); // Load department list again
+
+            // Add data to model to display in the JSP page
+            model.addAttribute("viewRaiseComplaint", viewData);
+            model.addAttribute("departments", departments);
+
+            // Return the same view with updated data
+            return "AdminViewRaiseComplaintDetails";
+
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Failed to allocate department. Please try again.");
             e.printStackTrace();
+            return "AdminViewRaiseComplaintDetails"; // Still return the view even if there's an error
         }
-        return "AdminViewRaiseComplaintDetails";
-
     }
 
-//    @PostMapping("/department-admins")
-//    public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model) {
-//
-//        DepartmentDTO departmentDTO=adminService.searchByDeptName(departmentAdminDTO.getDepartmentType());
-//        departmentAdminDTO.setDeptId(departmentDTO);
-//
-//        System.out.println("Running signInDepartmentAdmin method in AdminController...");
-//        boolean deptAdminDto = adminService.saveDepartmentAdmin(departmentAdminDTO);
-//        if (deptAdminDto) {
-//            model.addAttribute("signInsuccess", "Successfully logined" + departmentAdminDTO);
-//            return "AddDepartmentAdmins";
-//        }
-//        model.addAttribute("signInFailed", "login failed" + departmentAdminDTO);
-//        return "redirect:/get-all-departments";
-//    }
-//
-//    @GetMapping("/get-all-departments")
-//    public String getform(Model model){
-//        List<DepartmentDTO> departments = adminService.getAllDepartments();
-//        model.addAttribute("departments",departments);
-//        return "AddDepartmentAdmins";
-//    }
 
 
+//department admin signin 
     @PostMapping("/department-admins")
     public String registerDepartmentAdmin(DepartmentAdminDTO departmentAdminDTO, Model model, RedirectAttributes redirectAttributes) {
 
