@@ -84,6 +84,7 @@
 
         <span style="color:green"><strong>${generatedOTP}</strong></span>
                 <span style="color:red"><strong>${failed}</strong></span>
+                 <span style="color:red"><strong>${otpError}</strong></span>
 
                 <form action="validateOtp" method="post">
 

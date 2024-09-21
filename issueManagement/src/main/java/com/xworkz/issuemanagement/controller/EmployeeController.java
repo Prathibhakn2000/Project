@@ -140,6 +140,33 @@ public class EmployeeController {
         return "EmployeeOTPSend"; // Display OTP entry page
     }
 
+//    @PostMapping("validateOtp")
+//    public String validateOtp(@RequestParam("email") String email,
+//                              @RequestParam("otp") String otpInput,
+//                              HttpSession session,
+//                              RedirectAttributes redirectAttributes) {
+//        System.out.println("validateOtp method running in EmployeeController..");
+//
+//        // Check if the email exists in the database
+//        EmployeeDTO employeeDTO = employeeService.findByEmail(email);
+//        if (employeeDTO == null) {
+//            redirectAttributes.addFlashAttribute("emailNotFound", "Email does not exist.");
+//            System.out.println("Email not found in the database: " + email);
+//            return "redirect:/employeeLogin";
+//        }
+//
+//        // Validate OTP
+//        if (employeeDTO.getOtp() == null || !employeeDTO.getOtp().toString().equals(otpInput)) {
+//            redirectAttributes.addFlashAttribute("otpError", "Invalid OTP.");
+//            System.out.println("Invalid OTP for email: " + email);
+//            return "redirect:/employeeProfile";
+//        }
+//
+//        // OTP is valid, redirect to employee profile
+//        System.out.println("OTP validated for email: " + email);
+//        return "redirect:/employeeProfile";
+//    }
+
     @PostMapping("validateOtp")
     public String validateOtp(@RequestParam("email") String email,
                               @RequestParam("otp") String otpInput,
@@ -159,13 +186,15 @@ public class EmployeeController {
         if (employeeDTO.getOtp() == null || !employeeDTO.getOtp().toString().equals(otpInput)) {
             redirectAttributes.addFlashAttribute("otpError", "Invalid OTP.");
             System.out.println("Invalid OTP for email: " + email);
-            return "redirect:/employeeProfile";
+            // Redirect back to OTP page if OTP is invalid
+            return "redirect:/employee-otp-page";
         }
 
         // OTP is valid, redirect to employee profile
         System.out.println("OTP validated for email: " + email);
         return "redirect:/employeeProfile";
     }
+
 
     @GetMapping("employeeLogin")
     public String employeeLoginPage() {

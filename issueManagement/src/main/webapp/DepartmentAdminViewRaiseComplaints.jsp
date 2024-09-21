@@ -99,10 +99,14 @@
                                         <select class="form-select" name="employeeId" id="employeeId">
                                             <!-- Loop to display employees -->
                                             <c:forEach var="employee" items="${employees}">
-                                                <option value="${employee.employeeId}">
+                                                <option value="${employee.employeeId}"
+                                                    <c:if test="${deptAdminViewComplaints.employeeId != null && employee.employeeId == deptAdminViewComplaints.employeeId.employeeId}">
+                                                        selected
+                                                    </c:if>>
                                                     ${employee.empFullName}
                                                 </option>
                                             </c:forEach>
+
                                         </select>
                                     </div>
                                 </td>

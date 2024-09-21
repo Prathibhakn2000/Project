@@ -136,24 +136,32 @@
 
 
                               <form action="allocate-department" method="post">
-                               <td >
-                               <div style="width:110px;">
+
+                               <td>
+                                   <div style="width:110px;">
+
+                                   <input type="hidden" name="complaintId" value="${viewRaiseComplaintUsers.complaintId}" id="complaintId">
+                                       <select class="form-select" name="status" id="status">
+                                           <option value="Pending" ${viewRaiseComplaintUsers.status == 'Pending' ? 'selected' : ''}>Pending</option>
+                                           <option value="Active" ${viewRaiseComplaintUsers.status == 'Active' ? 'selected' : ''}>Active</option>
+                                           <option value="Resolved" ${viewRaiseComplaintUsers.status == 'Resolved' ? 'selected' : ''}>Resolved</option>
+                                           <!-- Add more options as necessary -->
+                                       </select>
+                                   </div>
+                               </td>
 
 
-                                <input type="hidden" name="complaintId" value="${viewRaiseComplaintUsers.complaintId}" id="complaintId">
-
-                               <select class="form-select" name="status" id="status">
-                               <option selected >${complaint.status}</option>
-                               <option value="Pending">Pending</option>
-                               <option value="Active">Active</option>
-                               </select>
-                               </div>
 
                                <td>
                                <div style="width:110px;">
                                           <select class="form-select" name="deptId" id="deptId">
                                               <c:forEach var="department" items="${departments}">
-                                                 <option value="${department.deptId}">${department.departmentType}</option>
+                                                  <option value="${department.deptId}"
+                                                      <c:if test="${viewRaiseComplaintUsers.departmentDTO != null && department.deptId == viewRaiseComplaintUsers.departmentDTO.deptId}">
+                                                          selected
+                                                      </c:if>>
+                                                      ${department.departmentType}
+                                                  </option>
                                               </c:forEach>
                                           </select>
                                </div>

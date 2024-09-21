@@ -329,6 +329,8 @@ public class AdminController {
         return "DepartmentAdminViewRaiseComplaints";
     }
 
+
+
     //allocate employee in complaint view
     @PostMapping("/allocate-employee")
     public String allocateEmployee(
