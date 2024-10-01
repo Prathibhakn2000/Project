@@ -50,6 +50,7 @@
 </nav>
 
 <!-- View of Raised Complaints -->
+
 <div class="d-flex justify-content-center mt-3 mb-2 align-items-center vh-80">
     <div class="card highlight-card">
         <div class="card-body">
@@ -69,6 +70,7 @@
                         <th>UserId</th>
                         <th>Allocate Employee</th>
                         <th>Submit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,10 +90,7 @@
 
                             <!-- Form to allocate employee -->
                             <form action="allocate-employee" method="post">
-                                <!-- Hidden field for complaintId -->
-                                <input type="hidden" name="complaintId" value="${deptAdminViewComplaints.complaintId}"/>
-
-                                <!-- Add hidden input for status -->
+                                <input type="hidden" name="complaintId" value="${deptAdminViewComplaints.complaintId}" />
                                 <input type="hidden" name="status" value="Open" />
 
                                 <td>
@@ -106,26 +105,40 @@
                                                     ${employee.empFullName}
                                                 </option>
                                             </c:forEach>
-
                                         </select>
                                     </div>
                                 </td>
 
                                 <td>
-                                    <button type="submit" class="btn btn-primary mt-2">
-                                        Submit
-                                    </button>
+                                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
                                 </td>
                             </form>
 
+
+                            <!-- Form to delete employee-->
+
+
+                            <form action="delete-employee" method="post" onsubmit="return confirm('Are you sure you want to delete this employee?');">
+                                <!-- Hidden field for complaintId -->
+                                <input type="hidden" name="complaintId" value="${deptAdminViewComplaints.complaintId}" />
+
+                                <!-- Ensure employeeId exists before creating the hidden input -->
+                                <c:if test="${deptAdminViewComplaints.employeeId != null}">
+                                    <input type="hidden" name="employeeId" value="${deptAdminViewComplaints.employeeId.employeeId}" />
+                                </c:if>
+
+                                <td>
+                                    <button type="submit" class="btn btn-danger mt-2">Delete Employee</button>
+                                </td>
+                            </form>
+
+
                         </tr>
                     </c:forEach>
-
                 </tbody>
-            </table>
+
         </div>
     </div>
 </div>
-
 </body>
 </html>

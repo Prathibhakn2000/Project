@@ -54,5 +54,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    @Override
+    //@Transactional
+    public boolean deleteAllocatedEmployee(int employeeId, int complaintId) {
 
+
+        // Update the employee status to 'inactive'
+        boolean updateSuccess = employeeRepo.updateEmployeeStatusToInActive(employeeId,complaintId);
+
+        return updateSuccess;
+    }
+    //return false;
 }
+
+
+

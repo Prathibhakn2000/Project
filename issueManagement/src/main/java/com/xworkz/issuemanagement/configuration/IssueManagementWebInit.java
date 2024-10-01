@@ -4,7 +4,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class IssueManagementWebInit extends AbstractAnnotationConfigDispatcherServletInitializer implements WebMvcConfigurer {
+public class  IssueManagementWebInit extends AbstractAnnotationConfigDispatcherServletInitializer implements WebMvcConfigurer {
 
 
   public  IssueManagementWebInit()

@@ -394,7 +394,7 @@ public class AdminRepoImpl implements AdminRepo {
 
         try {
             // Query to fetch employees by department type
-            String query = "SELECT e FROM EmployeeDTO e WHERE e.departmentType = :departmentType";
+            String query = "SELECT e FROM EmployeeDTO e WHERE e.departmentType = :departmentType AND e.status = 'active'";
             Query query1 = entityManager.createQuery(query);
             query1.setParameter("departmentType", departmentType);  // Bind departmentType parameter
             List<EmployeeDTO> resultList = query1.getResultList();

@@ -2,6 +2,7 @@ package com.xworkz.issuemanagement.controller;
 
 import com.xworkz.issuemanagement.dto.DepartmentDTO;
 import com.xworkz.issuemanagement.dto.EmployeeDTO;
+import com.xworkz.issuemanagement.dto.RaiseComplaintDTO;
 import com.xworkz.issuemanagement.emailSending.EmployeeOTPSending;
 import com.xworkz.issuemanagement.model.service.AdminService;
 import com.xworkz.issuemanagement.model.service.EmployeeService;
@@ -25,8 +26,7 @@ import java.util.List;
 public class EmployeeController {
 
 
-    public EmployeeController()
-    {
+    public EmployeeController() {
         System.out.println("Creating EmployeeController");
     }
 
@@ -48,39 +48,33 @@ public class EmployeeController {
     private OTPGenerator otpGenerator;
 
 
-
     @PostMapping("/employee-singup")
     public String signUp(@Valid EmployeeDTO employeeDTO, RedirectAttributes redirectAttributes) {
         System.out.println("signUp method running in EmployeeController..");
 
         DepartmentDTO dataValid = this.adminService.searchByDeptName(employeeDTO.getDepartmentType());
-        System.out.println("dataValid" +dataValid);
+        System.out.println("dataValid" + dataValid);
         employeeDTO.setDeptId(dataValid);
 
-            boolean employeedetail=this.employeeService.validateAndSaveEmployeeDetails(employeeDTO);
-            if(employeedetail) {
-                System.out.println("SignUpService registration successful in EmployeeController:" + employeeDTO);
-                redirectAttributes.addFlashAttribute("message", "Register successful :" + employeeDTO.getEmpFullName());
-            }
-            else
-            {
-            System.out.println("SignUpService registration not successful in EmployeeController:"+employeeDTO);
-                redirectAttributes.addFlashAttribute("message", "Not Register :" + employeeDTO.getEmpFullName());
-            }
+        boolean employeedetail = this.employeeService.validateAndSaveEmployeeDetails(employeeDTO);
+        if (employeedetail) {
+            System.out.println("SignUpService registration successful in EmployeeController:" + employeeDTO);
+            redirectAttributes.addFlashAttribute("message", "Register successful :" + employeeDTO.getEmpFullName());
+        } else {
+            System.out.println("SignUpService registration not successful in EmployeeController:" + employeeDTO);
+            redirectAttributes.addFlashAttribute("message", "Not Register :" + employeeDTO.getEmpFullName());
+        }
 
         return "redirect:/view-department-in-employee";
 
     }
 
     @GetMapping("/view-department-in-employee")
-    public String getform(Model model){
+    public String getform(Model model) {
         List<DepartmentDTO> departments = adminService.getAllDepartments();
-        model.addAttribute("departments",departments);
+        model.addAttribute("departments", departments);
         return "EmployeeSignUp";
     }
-
-
-
 
 
     //employee login
@@ -250,6 +244,36 @@ public class EmployeeController {
         return "redirect:/employeeLogin"; // Redirect back to login page if there is an error
     }
 
+    // Delete a employee
+    // Ensure this is the correct path mapping for deleting employee allocation
+    @PostMapping("/delete-employee")
+    public String deleteEmployeeAllocation(@RequestParam(value = "employeeId", required = false) Integer employeeId,
+                                           @RequestParam(value = "complaintId", required = false) Integer complaintId,
+                                           RedirectAttributes redirectAttributes) {
+        if (employeeId == null || complaintId == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid employee ID or complaint ID.");
+            return "redirect:/department-admin-view-particular-complaint";
+        }
+
+        boolean isDeleted = employeeService.deleteAllocatedEmployee(employeeId, complaintId);
+
+        if (isDeleted) {
+            redirectAttributes.addFlashAttribute("successMessage", "Employee allocation deleted and status set to inactive.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete employee allocation.");
+        }
+
+        return "redirect:/department-admin-view-particular-complaint";
+    }
+
+
+
+
+
+    @GetMapping("department-admin-view-particular-complaint")
+    public String employeedelete() {
+        return "DepartmentAdminViewRaiseComplaints"; // Display login page
+    }
+
+
 }
-
-

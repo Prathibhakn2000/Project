@@ -9,7 +9,13 @@ public interface EmployeeRepo {
 
     boolean saveEmployeeDetails(EmployeeDTO employeeDTO);
 
+    //it is used to check email is present in DB
     EmployeeDTO findByEmail(String email);
+
+
+
+
+    boolean updateEmployeeStatusToInActive(int employeeId,int complaintId);
 
 
 }
