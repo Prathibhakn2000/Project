@@ -36,6 +36,8 @@ public class AdminController {
     @PostMapping("admin")
     public String adminDetails(AdminDTO adminDTO, @RequestParam String email, @RequestParam String password, RedirectAttributes redirectAttributes, Model model) {
         System.out.println("adminDetails method in AdminController");
+        System.out.println("adminDetails method in AdminController1");
+
 
 
         boolean data = adminService.findByEmailAndPassword(email, password);
